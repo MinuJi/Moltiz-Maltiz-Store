@@ -1,0 +1,49 @@
+/* ===== 메인 ===== */
+main.container {
+  text-align: center;
+}
+main.container h2 {
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+main.container .actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* ===== 북마크 리스트 ===== */
+#bookmarkList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* ===== 토스트 ===== */
+.bookmark-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgb(22,124,241);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 2147483647;
+}
+.bookmark-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+/* ===== 유틸 ===== */
+.hidden { display: none !important; }

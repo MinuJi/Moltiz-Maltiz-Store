@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find ID & Password - Moltiz! Maltiz!</title>
+  <link rel="stylesheet" href="findstyle.css" />
+  <script src="find.js" defer></script>
+</head>
+<body>
+  <div class="find-container">
+    <h1 class="find-title">
+      <a href="./Home.html" class="home-link">Moltiz! Maltiz!</a>
+    </h1>
+
+    <p class="breadcrumb">Home &nbsp;/&nbsp; Find ID & Password</p>
+
+    <div class="find-images">
+      <img src="https://i.pinimg.com/736x/ce/28/78/ce287875af56b98c09e2d9d51a240906.jpg" alt="Left Character">
+      <img src="https://i.pinimg.com/736x/de/ff/75/deff75129c555894f9e4a22f2af56bbe.jpg" alt="Right Character">
+    </div>
+
+    <h2 class="section-title">Find ID & Password & New Password</h2>
+
+    <!-- ✅ 세 박스를 같은 컨테이너에, 위→아래 순서로 -->
+    <div class="find-forms">
+      <!-- 1) Find ID -->
+      <form class="form-section" id="findIdForm" novalidate>
+        <h3>Find ID</h3>
+        <div class="input-group">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/acb0ece0-b3f0-4a53-b9d7-20ff829d0c42.png" alt="Name Icon">
+          <input type="text" id="findName" name="name" placeholder="Name" required>
+        </div>
+        <div class="input-group">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/14ca8a1f-c602-4fd9-a0a2-b65bcf0e366b.png" alt="Phone Icon">
+          <input type="tel" id="findPhone" name="phone" placeholder="Phone Number" required>
+        </div>
+        <button type="submit" class="check-btn" id="findIdBtn">Check</button>
+        <p id="findIdResult" class="result-text"></p>
+      </form>
+
+      <!-- 2) Find Password (reset start) -->
+      <form class="form-section" id="findPwForm" novalidate>
+        <h3>Find Password</h3>
+        <div class="input-group">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6c3a20be-6bd4-48a2-9616-b7ade26319cd.png" alt="ID Icon">
+          <input type="email" id="pwEmail" name="email" placeholder="ID (Email)" required>
+        </div>
+        <div class="input-group">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/acb0ece0-b3f0-4a53-b9d7-20ff829d0c42.png" alt="Name Icon">
+          <input type="text" id="pwName" name="name" placeholder="Name" required>
+        </div>
+        <div class="input-group">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/14ca8a1f-c602-4fd9-a0a2-b65bcf0e366b.png" alt="Phone Icon">
+          <input type="tel" id="pwPhone" name="phone" placeholder="Phone Number" required>
+        </div>
+        <button type="submit" class="check-btn" id="findPwBtn">Check</button>
+        <p id="findPwResult" class="result-text"></p>
+      </form>
+
+      <!-- 3) Set New Password (confirm) -->
+      <section class="form-section reset-section">
+        <h3>Set New Password</h3>
+        <form id="resetConfirmForm" novalidate>
+          <div class="input-group">
+            <input type="text" id="resetToken" placeholder="Paste reset token here" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="newPw" placeholder="New password" required />
+          </div>
+          <div class="input-group">
+            <input type="password" id="newPw2" placeholder="Confirm new password" required />
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="check-btn" id="resetConfirmBtn">Change Password</button>
+            <a href="./Login.html" class="check-btn to-login-btn hidden" id="goLoginBtn">Going to Log In</a>
+          </div>
+
+          <p id="resetConfirmResult" class="result-text"></p>
+        </form>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

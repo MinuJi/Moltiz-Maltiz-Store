@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery • Moltiz! Maltiz!</title>
+  <link rel="stylesheet" href="Mainstyle.css" />
+  <link rel="stylesheet" href="GalleryStyle.css" />
+</head>
+<body>
+
+ <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <!-- 로고 + 홈 -->
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <!-- 검색창 -->
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <!-- 유저 메뉴 (로그인 상태에 따라 스위칭) -->
+        <nav class="user-menu" aria-label="User menu">
+          <!-- 비회원용 -->
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+
+          <!-- 회원용 (처음엔 숨김) -->
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+
+          <!-- 항상 노출되는 메뉴 -->
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+<!-- ===== Main ===== -->
+<main>
+
+  <!-- 페이지 타이틀 -->
+  <h2 class="what-title">Gallery</h2>
+
+  <!-- 갤러리 그리드 -->
+  <section class="gallery-container" id="gallery" aria-label="Image gallery">
+    <figure class="gallery-item">
+      <img src="https://i.pinimg.com/736x/aa/42/66/aa426627629d29066bcdacb65219f8f4.jpg" alt="Moltiz posing with a blue outfit" loading="lazy" />
+      <figcaption>Image 1 Description</figcaption>
+    </figure>
+
+    <figure class="gallery-item">
+      <img src="https://i.pinimg.com/736x/72/f4/7c/72f47c7421a65150e900c0e9d4c5df36.jpg" alt="Maltiz holding a balloon" loading="lazy" />
+      <figcaption>Image 2 Description</figcaption>
+    </figure>
+
+    <figure class="gallery-item">
+      <img src="https://i.pinimg.com/1200x/c1/e5/c6/c1e5c688303b86d1aefda8d9808c032e.jpg" alt="Moltiz sitting on a bench" loading="lazy" />
+      <figcaption>Image 3 Description</figcaption>
+    </figure>
+
+    <figure class="gallery-item">
+      <img src="https://i.pinimg.com/736x/80/bf/e5/80bfe5b09623565cc3a1d0d5bdd4964c.jpg" alt="Moltiz happy" loading="lazy" />
+      <figcaption>Image 4 Description</figcaption>
+    </figure>
+
+    <figure class="gallery-item">
+      <img src="https://i.pinimg.com/736x/1f/b8/4e/1fb84ecf77f9e67fceeeacf490e402c2.jpg" alt="Moltiz cute pose" loading="lazy" />
+      <figcaption>Image 5 Description</figcaption>
+    </figure>
+
+    <!-- 6·7번 딱 붙여 표시 -->
+    <div class="gallery-duo">
+      <figure>
+        <img src="https://ilovecharacter.com/news/data/20231101/p1065596442798661_721_thum.png" alt="Moltiz camera frame" loading="lazy" />
+        <figcaption>Image 6 Description</figcaption>
+      </figure>
+      <figure>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRiDb1gKkAsK9SCjlDLTyATofD6sW1BvTfETQiSR26ruxxgtzcKkA2f6RgF9_OALMMAM&usqp=CAU" alt="Moltiz with hearts" loading="lazy" />
+        <figcaption>Image 7 Description</figcaption>
+      </figure>
+    </div>
+
+    <figure class="gallery-item">
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz cute pose" loading="lazy" />
+      <figcaption>Image 8 Description</figcaption>
+    </figure>
+  </section>
+
+
+
+  <!-- 텍스트/링크/버튼 섹션 -->
+  <section class="gallery-text">
+    <h2 class="what-title">Moltiz Maltiz is have emoticon <br> Here is link!</h2>
+
+    <p class="emoticon-link">
+      <a href="https://e.kakao.com/creator/EAR481" target="_blank" rel="noopener">
+        https://e.kakao.com/creator/EAR481
+      </a>
+    </p>
+
+    <p class="variety-text">
+      If you want to find a variety of pictures, click this link
+    </p>
+
+    <p class="press-btn-wrap">
+      <a href="https://kr.pinterest.com/search/pins/?q=%EB%AA%B0%ED%8B%B0%EC%A6%88&rs=srs&b_id=BOsmeLahrvygAAAAAAAAAABWcdWMk87Gd2pChhDzjDkWEv1OQvVwPmgj7_bMw0scfxdUTTm1DkDcViXzC3_SXbg&source_id=vbQgMbFj"
+         target="_blank" rel="noopener" class="press-btn">
+        press
+      </a>
+    </p>
+  </section>
+
+</main>
+
+<!-- ===== 푸터 ===== -->
+<footer>
+    <p>
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+             alt="Moltiz! Maltiz! Logo" class="footer-logo">
+        <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+</footer>
+
+
+<!-- ===== 이미지 확대 팝업 기능 ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 갤러리 내 모든 이미지에 클릭 확대 기능 적용
+  const imgs = document.querySelectorAll('.gallery-container img');
+  imgs.forEach(img => {
+    img.classList.add('clickable-image');
+    img.addEventListener('click', () => openOverlay(img));
+  });
+
+  function openOverlay(img) {
+    const overlay = document.createElement('div');
+    overlay.className = 'image-overlay';
+
+    const largeImg = document.createElement('img');
+    largeImg.src = img.src;
+
+    // Moltiz / Maltiz 이미지는 더 크게 표시 (대소문자 구분 없이 alt 기준)
+    const altText = (img.alt || '').toLowerCase();
+    if (altText.includes('moltiz') || altText.includes('maltiz')) {
+      largeImg.style.maxWidth = '95%';
+      largeImg.style.maxHeight = '95%';
+    } else {
+      largeImg.style.maxWidth = '90%';
+      largeImg.style.maxHeight = '90%';
+    }
+
+    // 이미지 클릭은 닫히지 않게(필요시 주석 해제)
+    // largeImg.addEventListener('click', e => e.stopPropagation());
+
+    // 오버레이 클릭 / ESC 로 닫기
+    overlay.addEventListener('click', closeOverlay);
+    document.addEventListener('keydown', escClose);
+
+    overlay.appendChild(largeImg);
+    document.body.appendChild(overlay);
+    document.body.classList.add('no-scroll');
+
+    function closeOverlay() {
+      overlay.remove();
+      document.removeEventListener('keydown', escClose);
+      document.body.classList.remove('no-scroll');
+    }
+    function escClose(e) {
+      if (e.key === 'Escape') closeOverlay();
+    }
+  }
+});
+</script>
+
+<!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+<script src="script.js"></script>
+
+
+</body>
+</html>

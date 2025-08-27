@@ -1,0 +1,142 @@
+/* 기본 설정 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* 전체 컨테이너 */
+.store-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 위치 표시 */
+.location {
+  font-size: 14px;
+  margin: 10px 0;
+  color: #555;
+}
+
+/* 섹션 제목 */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(22, 124, 241);
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* 상품 그리드 */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* 상품 카드 */
+.product-card {
+  position: relative;
+  border: 2px solid rgb(22, 124, 241);
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 260px; /* 카드 높이 고정 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* 상품 이미지 */
+.product-card img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 상품명 */
+.product-card h3,
+.product-card h4 {
+  font-size: 14px;
+  color: rgb(22, 124, 241);
+  margin: 8px 0 4px;
+}
+
+/* 가격 */
+.product-card p {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  color: #000;
+}
+
+/* 하트 버튼 */
+.heart-btn {
+  border: 1px solid rgb(22,124,241);
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgb(22,124,241);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-top: 6px;
+}
+
+/* 등수 뱃지 */
+.rank-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: #999;
+  color: white;
+}
+
+/* 색상별 순위 강조 */
+.rank-badge.gold {
+  background-color: gold;
+  color: black;
+}
+.rank-badge.silver {
+  background-color: silver;
+  color: black;
+}
+.rank-badge.bronze {
+  background-color: peru;
+  color: white;
+}
+
+:root { --blue: rgb(22,124,241); }
+
+/* 제목: h3/h4 전부 파랑으로 강제 */
+.product-card h3,
+.product-card h4,
+.product-button h3,
+.product-button h4 {
+  color: var(--blue) !important;
+}
+
+/* 제목이 a로 감싸져 있으면 링크 색도 강제 상속 */
+.product-card h3 a,
+.product-card h4 a,
+.product-button h3 a,
+.product-button h4 a,
+.product-card h3 a:visited,
+.product-card h4 a:visited {
+  color: inherit !important;
+  text-decoration: none;
+}

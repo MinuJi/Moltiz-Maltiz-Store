@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Moltiz! Maltiz!</title>
+  <link rel="stylesheet" href="Mainstyle.css">
+  <link rel="stylesheet" href="LoginStyle.css">
+  <!-- 로그인 로직 -->
+  <script src="Login.js" defer></script>
+</head>
+<body>
+  <main>
+    <div class="login-container">
+      <h2 class="login-title">
+        <a href="./Home.html">Moltiz! Maltiz!</a>
+      </h2>
+
+      <img
+        src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/4ef1837a-7929-4c8e-b9f3-7ff3f72f8c1b.png"
+        alt="Moltiz & Maltiz"
+        class="login-logo"
+      >
+
+      <h3 class="member-login">Member Login</h3>
+
+      <!-- 엔터키로 제출되도록 form 사용 -->
+      <form id="loginForm" class="login-form" novalidate>
+        <div class="input-group">
+          <input type="email" id="loginEmail" name="email" placeholder="ID (Email)" required autofocus>
+        </div>
+        <div class="input-group">
+          <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+        </div>
+
+        <div class="login-options">
+          <label>
+            <input type="checkbox" id="autoLogin">
+            <span class="auto-login">Automatic login</span>
+          </label>
+          <a href="./find.html">Find ID and Password</a>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">Login</button>
+        <button type="button" class="join-btn" onclick="location.href='./Join.html'">Join membership</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

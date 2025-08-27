@@ -1,0 +1,135 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.find-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.find-title .home-link {
+  font-size: 32px;
+  font-weight: bold;
+  color: rgb(22,124,241);
+  text-decoration: none;
+}
+.find-title .home-link:hover { text-decoration: underline; }
+
+.breadcrumb {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.find-images {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.find-images img {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+.find-images img:hover { transform: scale(1.05); }
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(22,124,241);
+  margin-bottom: 30px;
+}
+
+/* ✅ 세로 스택 레이아웃 */
+.find-forms {
+  display: flex;
+  flex-direction: column;   /* 한 박스당 한 줄 */
+  gap: 24px;
+  align-items: center;       /* 가운데 정렬 */
+}
+
+.form-section {
+  width: 100%;
+  max-width: 480px;          /* 각 박스 폭 */
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.form-section h3 {
+  color: rgb(22,124,241);
+  margin: 6px 0 12px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  background: white;
+}
+.input-group img { width: 20px; height: 20px; }
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.check-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgb(22,124,241);
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.check-btn:hover { background: rgb(18,102,199); }
+
+/* Set New Password 섹션 */
+.reset-section { max-width: 480px; margin: 0 auto; }
+
+/* 액션 버튼(변경/로그인) 가로 정렬 */
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.actions .check-btn {
+  width: auto;         /* 이미 있음 */
+  min-width: 220px;    /* 두 버튼 공통 */
+  padding: 12px 22px;  /* 패딩 업 */
+}
+
+
+.to-login-btn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.hidden { display: none; }
+
+/* Change Password 버튼만 살짝 길게 */
+#resetConfirmBtn {
+  min-width: 220px;   /* 원하는 길이로 조절 (예: 200~260px) */
+  padding: 12px 22px; /* 세로/가로 패딩도 조금 늘림 */
+}
+
+@media (max-width: 360px) {
+  .actions .check-btn, #resetConfirmBtn {
+    min-width: 0;
+  }
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Page - Moltiz! Maltiz!</title>
+
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="Mainstyle.css"/>
+  <!-- 이 페이지 전용 스타일 -->
+  <link rel="stylesheet" href="MyStyle.css"/>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <div class="top-bar">
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <nav class="user-menu" aria-label="User menu">
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 메인 ===== -->
+  <main class="mypage-container">
+    <h2 class="mypage-title">My Page</h2>
+
+    <!-- 주문 내역 -->
+    <div class="mypage-card">
+      <div class="mypage-header">
+        <img src="https://i.pinimg.com/736x/80/bf/e5/80bfe5b09623565cc3a1d0d5bdd4964c.jpg" alt="My Page Icon">
+        <h3>Order List</h3>
+      </div>
+
+      <div class="search-box">
+        <input id="orderSearch" type="text" placeholder="You can search for the items you ordered">
+        <button id="orderSearchBtn">
+          <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="Search">
+        </button>
+      </div>
+
+      <p class="no-order" id="noOrder">You don't have a purchase history</p>
+      <div id="orderList" class="order-list"></div>
+    </div>
+
+    <!-- 멤버십 요약 -->
+    <div id="membershipSummary"></div>
+
+    <!-- 쿠폰 (동적 렌더링) -->
+    <div class="mypage-card">
+      <div class="mypage-header">
+        <img src="https://i.pinimg.com/1200x/67/e3/15/67e315bd3a67c89df863f3e1cfdd29b0.jpg" alt="Coupon Icon">
+        <h3>Coupon</h3>
+      </div>
+
+      <!-- ✅ JS가 렌더할 영역 -->
+      <div id="couponList" class="coupon-list"></div>
+
+      <a href="membership.html" class="membership-link">Check out your membership!</a>
+      <button class="check-btn" onclick="location.href='membership.html'">Check it out</button>
+    </div>
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+  <footer>
+    <p>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+           alt="Moltiz! Maltiz! Logo" class="footer-logo">
+      <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+  </footer>
+  <!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+  <!-- 공통 스크립트(1회) -->
+  <script src="script.js"></script>
+  <!-- 이 페이지 전용 -->
+  <script src="mypage.js"></script>
+</body>
+</html>

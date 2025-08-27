@@ -1,0 +1,138 @@
+/* ===== What.html 전용 스타일 ===== */
+
+/* 메인 제목 */
+.what-title {
+    text-align: center;
+    color: rgb(22,124,241);
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Moltiz / Maltiz 캐릭터 그룹 */
+.character-group {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* 개별 캐릭터 카드 */
+.character-card {
+    text-align: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 320px;
+}
+
+.character-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Moltiz / Maltiz 캐릭터 이미지 크기 동일하게 */
+.character-card img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* 이미지 hover 시 살짝 확대 */
+.character-card img:hover {
+    transform: scale(1.05);
+}
+
+.character-card h3 {
+    color: rgb(22,124,241);
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.character-card p {
+    color: orange;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* 단독 이미지 (강아지 사진) */
+.single-image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.single-image {
+    width: 400px;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* 설명 텍스트 */
+.description-text {
+    text-align: center;
+    max-width: 800px;
+    margin: 30px auto;
+    color: rgb(22,124,241);
+    font-size: 22px;
+    line-height: 1.8;
+    background: #f8faff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ===== 이미지 hover 효과 ===== */
+.clickable-image {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.clickable-image:hover {
+    transform: scale(1.08) translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* 팝업 오버레이 */
+.image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+/* 팝업 이미지 스타일 */
+.image-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+/* 팝업 나타날 때 부드러운 페이드 인 */
+@keyframes fadeIn {
+    from { background: rgba(0,0,0,0); }
+    to { background: rgba(0,0,0,0.85); }
+}
+
+/* 이미지 확대 애니메이션 */
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

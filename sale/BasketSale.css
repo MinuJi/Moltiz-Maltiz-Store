@@ -1,0 +1,246 @@
+:root { --blue: rgb(22,124,241); }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* 메인 컨테이너 */
+.figure-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 4px solid var(--blue);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* 상품 상세 전체 박스 */
+.figure-info-horizontal {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;     /* 가운데 정렬 */
+  align-items: flex-start;
+}
+
+/* ===== 왼쪽: 카드형 상품 영역 ===== */
+.figure-left.as-card {
+  position: relative;
+  max-width: 520px; width: 100%;
+  border: 1.5px solid var(--blue);
+  border-radius: 12px;
+  padding: 12px 12px 16px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  text-align: center;
+}
+
+.figure-left.as-card .product-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+}
+
+/* 공용 할인 뱃지(카드 좌상단) */
+.discount-badge {
+  position: absolute;
+  top: 8px; left: 8px;
+  background: #ff3b30; 
+  color: #fff;
+  font-weight: 800; font-size: 12px;
+  padding: 4px 8px; 
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+.product-title { margin: 12px 0 6px; font-size: 22px; font-weight: 800; color: var(--blue); }
+.product-price  { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+.product-price del { color:#8892a6; margin-left:6px; }
+
+/* 하트 버튼(카드 하단) — 완전 중앙 정렬 */
+.figure-left.as-card .heart-btn,
+.button-group .heart-btn {
+  margin-top: 6px;
+  width: 50px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--blue);
+  background: #fff; color: var(--blue);
+  border-radius: 6px; font-size: 18px; font-weight: 700;
+  line-height: 1; padding: 0; text-align: center;
+  cursor: pointer; transition: background .25s, color .25s;
+}
+.figure-left.as-card .heart-btn:hover,
+.button-group .heart-btn:hover { background: var(--blue); color:#fff; }
+.heart-btn.liked { color:#e02424; border-color:#e02424; background:#ffecec; }
+
+/* (충돌 방지) 예전 규칙이 as-card를 덮지 않도록 수정 */
+.figure-left:not(.as-card) img {
+  width: 300px;
+  border-radius: 12px;
+  border: 2px solid #ccc;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* ===== 오른쪽: 정보/수량/버튼 ===== */
+.figure-right {
+  flex: 1;
+  min-width: 260px;
+  text-align: center;
+  padding: 20px;
+  color: inherit;               /* ← 붉은 글씨 제거 */
+}
+.figure-right h2 { color: var(--blue); margin-bottom: 12px; font-size: 22px; }
+.figure-right p  { margin: 6px 0; font-size: 16px; }
+
+.quantity-box {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin: 15px auto;
+}
+.quantity-box input {
+  width: 80px; padding: 6px 10px; font-size: 16px;
+  border-radius: 6px; border: 1px solid #aaa; text-align:center;
+}
+.quantity-box span { font-weight: bold; font-size: 16px; }
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
+  justify-content: center;
+}
+.basket-btn, .buy-btn {
+  padding: 10px 16px;
+  border: 2px solid var(--blue);
+  background: #fff; color: var(--blue);
+  font-weight: bold; border-radius: 6px; cursor: pointer;
+  height: 42px; display: inline-flex; align-items: center; justify-content: center;
+  transition: background .25s, color .25s;
+}
+.basket-btn:hover, .buy-btn:hover { background: var(--blue); color: #fff; }
+
+/* 오른쪽(또는 하단) 보조 이미지 */
+.figure-type-image img {
+  width: 350px;
+  border-radius: 12px;
+  border: 1.5px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* 하단 설명 텍스트 */
+.figure-description {
+  font-size: 30px; margin: 20px auto 0;
+  color: var(--blue); background-color: #f0f8ff;
+  padding: 10px 16px; border: 2px solid var(--blue);
+  border-radius: 8px; font-weight: bold; display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color .3s ease, color .3s ease;
+  text-align: center;
+}
+.figure-description:hover { background: var(--blue); color:#fff; }
+
+/* 이미지 확대 공통 */
+.clickable-image { cursor: zoom-in; transition: transform .25s, box-shadow .25s; border-radius: 8px; }
+.clickable-image:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+
+/* 오버레이 */
+.image-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+  z-index: 9999; display: flex; justify-content: center; align-items: center;
+  cursor: zoom-out;
+}
+.image-overlay img { border-radius: 14px; box-shadow: 0 0 20px rgba(255,255,255,0.4); transition: transform .25s; max-width: 95vw; max-height: 85vh; }
+
+/* 반응형 */
+@media (max-width: 780px){
+  .figure-left.as-card .product-img { height: 260px; }
+  .figure-right { flex-basis: 100%; }
+}
+
+/* --- 스토어 그리드(다른 페이지에서도 사용) --- */
+.product-grid {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: 20px; padding: 30px 10px;
+}
+.product-card {
+  width: 300px; text-align: center; border: 2px solid var(--blue);
+  border-radius: 8px; padding: 10px; position: relative;
+}
+.product-card img {
+  width: 100%; height: 300px; object-fit: cover; border-radius: 6px;
+}
+
+/* 가격+뱃지 한 줄 중앙 */
+.price-row {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.price-text { font-size: 18px; font-weight: 700; }
+.price-text del { color: #8892a6; margin-left: 6px; }
+
+/* price-row 안에서는 뱃지를 static으로(중앙줄 유지) */
+.price-row .discount-badge {
+  position: static; top: auto; left: auto; display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 4px solid rgb(22, 124, 241);
+  padding: 40px;
+  z-index: 9999;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: min(450px, 90vw);
+  font-size: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-actions .btn-primary,
+.confirm-actions .btn-secondary {
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid rgb(22, 124, 241);
+  background-color: white;
+  color: rgb(22, 124, 241);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.confirm-actions .btn-primary:hover,
+.confirm-actions .btn-secondary:hover {
+  background-color: rgb(22, 124, 241);
+  color: white;
+}

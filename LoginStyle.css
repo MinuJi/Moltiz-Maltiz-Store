@@ -1,0 +1,103 @@
+/* 로그인 컨테이너 */
+.login-container {
+    max-width: 320px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1.5px solid rgb(22,124,241);
+    border-radius: 4px;
+    background: white;
+    text-align: center;
+}
+
+/* 제목 */
+.login-title {
+    font-size: 28px; /* 글씨 크기 확대 */
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: rgb(22,124,241);
+}
+
+.login-title a {
+    color: inherit; /* 부모 색상 상속 */
+    text-decoration: none;
+}
+
+.login-title a:hover {
+    text-decoration: underline;
+}
+
+/* 이미지 */
+.login-logo {
+    width: 180px; /* 기존보다 확대 */
+    margin-bottom: 15px;
+}
+
+/* Member Login */
+.member-login {
+    color: rgb(22,124,241);
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* 입력창 */
+.input-group {
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* 옵션 */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin: 10px 0;
+}
+
+.auto-login {
+    color: rgb(22,124,241);
+    font-weight: bold;
+}
+
+.login-options a {
+    font-size: 12px;
+    padding: 2px 4px;
+    border: 1px solid rgb(22,124,241);
+    border-radius: 3px;
+    color: rgb(22,124,241);
+    text-decoration: none;
+}
+
+/* 버튼 */
+.login-btn, .join-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-btn {
+    background: white;
+    border: 1px solid rgb(22,124,241);
+    color: rgb(22,124,241);
+}
+
+.join-btn {
+    background: white;
+    border: 1px solid rgb(22,124,241);
+    color: rgb(22,124,241);
+}
+
+.login-btn:hover, .join-btn:hover {
+    background: rgb(22,124,241);
+    color: white;
+}

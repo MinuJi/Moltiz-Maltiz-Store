@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sale - Moltiz! Maltiz!</title>
+  <link rel="stylesheet" href="saleStyle.css" />
+  <link rel="stylesheet" href="Mainstyle.css" />
+</head>
+<body>
+ <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <!-- 로고 + 홈 -->
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <!-- 검색창 -->
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <!-- 유저 메뉴 (로그인 상태에 따라 스위칭) -->
+        <nav class="user-menu" aria-label="User menu">
+          <!-- 비회원용 -->
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+
+          <!-- 회원용 (처음엔 숨김) -->
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+
+          <!-- 항상 노출되는 메뉴 -->
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 -->
+  <main>
+    <h2 class="page-title">Sale Product</h2>
+
+    <div class="product-grid">
+  <!-- 1 -->
+  <div class="product-card">
+    <div class="discount-badge">30% DC!</div>
+    <div class="product-button" onclick="location.href='sale/BlanketBSale.html'">
+      <div class="discount-badge">30% DC!</div>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png" alt="Moltiz Blanket">
+      <h3>Moltiz Blanket</h3>
+      <p><strong class="price-now">$14</strong> <del class="price-old">$20</del></p>
+    </div>
+    <!-- 하트 버튼 -->
+    <button
+      class="heart-btn"
+      type="button"
+      aria-label="Like Moltiz Blanket"
+      data-id="p-blanket-sale"
+      data-name="Moltiz Blanket (Sale)"
+      data-price="14"
+      data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png"
+      data-url="/BlanketBSale.html">♡</button>
+  </div>
+
+  <!-- 2 -->
+  <div class="product-card">
+    <div class="discount-badge">20% DC!</div>
+    <div class="product-button" onclick="location.href='sale/LogiticMalSale.html'">
+      <div class="discount-badge">20% DC!</div>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png" alt="Maltiz Logistic">
+      <h3>Maltiz Logistic</h3>
+      <p><strong class="price-now">$6</strong> <del class="price-old">$8</del></p>
+    </div>
+    <button
+      class="heart-btn"
+      type="button"
+      aria-label="Like Maltiz Logistic"
+      data-id="p-logiticmal-sale"
+      data-name="Maltiz Logistic (Sale)"
+      data-price="6"
+      data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png"
+      data-url="/LogiticMalSale.html">♡</button>
+  </div>
+
+  <!-- 3 -->
+  <div class="product-card">
+    <div class="discount-badge">20% DC!</div>
+    <div class="product-button" onclick="location.href='sale/LogiticMolSale.html'">
+      <div class="discount-badge">20% DC!</div>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png" alt="Moltiz Logistic">
+      <h3>Moltiz Logistic</h3>
+      <p><strong class="price-now">$6</strong> <del class="price-old">$8</del></p>
+    </div>
+    <button
+      class="heart-btn"
+      type="button"
+      aria-label="Like Moltiz Logistic"
+      data-id="p-logiticmol-sale"
+      data-name="Moltiz Logistic (Sale)"
+      data-price="6"
+      data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png"
+      data-url="/LogiticMolSale.html">♡</button>
+  </div>
+
+  <!-- 4 -->
+  <div class="product-card">
+    <div class="discount-badge">50% DC!</div>
+    <div class="product-button" onclick="location.href='sale/BagMolSale.html'">
+      <div class="discount-badge">50% DC!</div>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/779b76b0-c177-4289-82ef-09d7301b188c.png" alt="Moltiz Bag">
+      <h3>Moltiz Bag</h3>
+      <p><strong class="price-now">$6</strong> <del class="price-old">$12</del></p>
+    </div>
+    <button
+      class="heart-btn"
+      type="button"
+      aria-label="Like Moltiz Bag"
+      data-id="p-bagmol-sale"
+      data-name="Moltiz Bag (Sale)"
+      data-price="6"
+      data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/779b76b0-c177-4289-82ef-09d7301b188c.png"
+      data-url="/BagMolSale.html">♡</button>
+  </div>
+</div>
+
+<p class="sale-note">
+  Only this Sale link is give this Price!! Don’t let the opportunity slip.
+</p>
+
+  
+
+  <!-- ===== 푸터 ===== -->
+    <footer>
+        <p>
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+                 alt="Moltiz! Maltiz! Logo" class="footer-logo">
+            <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+        </p>
+        <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+        <p><strong>Email</strong>: minwooji00@xxx.com</p>
+        <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+    </footer>
+
+    <!-- 즐겨찾기 모듈 먼저 -->
+<script src="/BookMark.js"></script>
+
+    <!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+    <script src="script.js"></script>
+</body>
+</html>

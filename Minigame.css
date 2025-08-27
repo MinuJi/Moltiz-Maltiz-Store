@@ -1,0 +1,164 @@
+/* 페이지 전체 스타일 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Malgun Gothic', sans-serif;
+  background: linear-gradient(to bottom, #f0fbff, #d2eaff);
+  background-attachment: fixed;
+}
+
+/* 게임 박스 전체를 귀엽게 감싸기 */
+.game-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white;
+  border: 4px double #a2d4f4;
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 #8fc4eb;
+  text-align: center;
+}
+
+/* 타이틀 */
+.game-container h1 {
+  font-size: 2rem;
+  color: #03426e;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 0 #b3e5fc;
+}
+
+.game-container h3 {
+  font-size: 1rem;
+  color: #3498db;
+  margin-bottom: 20px;
+}
+
+/* 공통 텍스트 */
+.game-container p {
+  font-size: 0.9rem;
+  color: #2c3e50;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* 입력/선택 요소 공통 */
+input#guess,
+select#chanceCount {
+  width: 80%;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: 2px solid #5aa9e6;
+  border-radius: 12px;
+  background-color: #f9fdff;
+  box-shadow: 2px 2px 0 #8fc4eb;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+}
+input#guess:focus,
+select#chanceCount:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* 확인 버튼 */
+.game-button {
+  width: 60px;
+  height: 60px;
+  background-color: #ff6b81;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 50%;
+  border: solid 4px #333;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #444;
+  transition: 0.2s ease;
+}
+.game-button:hover {
+  background-color: #ff8fa3;
+}
+.game-button:active {
+  transform: translateY(2px);
+}
+
+/* 다시하기 버튼 */
+.reset-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #aee4ff;
+  color: #2c3e50;
+  font-weight: bold;
+  border: 2.5px solid #5aa9e6;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #8fc4eb;
+}
+.reset-button:hover {
+  background-color: #d4f1ff;
+}
+
+/* 결과창 */
+#result {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #1c3e50;
+  background-color: #e8f4ff;
+  padding: 15px;
+  margin-top: 15px;
+  border: 2px dashed #3498db;
+  border-radius: 10px;
+  box-shadow: 2px 2px 0 #a5c7e8;
+}
+
+/* 이미지 공통 스타일 */
+#startImage,
+#gameImage {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 4px solid #3498db;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+/* 흔들림 애니메이션 */
+@keyframes shake {
+  0% { transform: translate(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.shake {
+  animation: shake 0.4s ease;
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 600px) {
+  .game-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  #startImage, #gameImage {
+    width: 90%;
+    height: auto;
+  }
+
+  input#guess,
+  select#chanceCount {
+    width: 95%;
+  }
+}
+
+/* 메인 제목 */
+.what-title {
+    text-align: center;
+    color: rgb(22,124,241);
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Moltiz! Maltiz! Event</title>
+  <link rel="stylesheet" href="eventStyle.css" />
+  <link rel="stylesheet" href="Mainstyle.css" />
+</head>
+<body>
+ <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <!-- 로고 + 홈 -->
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <!-- 검색창 -->
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <!-- 유저 메뉴 (로그인 상태에 따라 스위칭) -->
+        <nav class="user-menu" aria-label="User menu">
+          <!-- 비회원용 -->
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+
+          <!-- 회원용 (처음엔 숨김) -->
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+
+          <!-- 항상 노출되는 메뉴 -->
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+ <main class="event-container">
+
+      <h2 class="what-title">Event</h2>
+
+
+  <section class="welcome">
+    <!-- 왼쪽 말풍선 -->
+    <div class="speech-bubble left">Oooo I want this one</div>
+
+    <!-- 왼쪽 이미지 -->
+    <div class="welcome-character-wrapper">
+      <img src="https://i.pinimg.com/736x/ce/28/78/ce287875af56b98c09e2d9d51a240906.jpg" alt="Heart Pink">
+    </div>
+
+    <!-- 오른쪽 이미지 -->
+    <div class="welcome-character-wrapper">
+      <img src="https://i.pinimg.com/736x/de/ff/75/deff75129c555894f9e4a22f2af56bbe.jpg" alt="Heart Blue">
+    </div>
+
+    <!-- 오른쪽 말풍선 -->
+    <div class="speech-bubble right">Let's fast buy it</div>
+  </section>
+
+  <div class="main-image">
+    <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/adfcee20-baad-444b-b1c2-83fd9ce9ff17.png" alt="Keyring Event Image">
+  </div>
+
+  <p class="event-description">
+    If you purchase more than 100,000 won, you will get a Maltese key ring for 10 people on a first-come, first-served basis!!
+  </p>
+</main>
+
+
+<!-- ===== 이미지 확대 팝업 기능 ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 메인 이미지 안의 태그 선택
+  const imgs = document.querySelectorAll('.main-image img');
+  
+  imgs.forEach(img => {
+    img.classList.add('clickable-image');
+    img.addEventListener('click', () => openOverlay(img));
+  });
+
+  function openOverlay(img) {
+    const overlay = document.createElement('div');
+    overlay.className = 'image-overlay';
+
+    const largeImg = document.createElement('img');
+    largeImg.src = img.src;
+
+    // CSS에서 통일된 크기와 object-fit 처리 가능
+    largeImg.style.width = '800px';
+    largeImg.style.height = '600px';
+    largeImg.style.objectFit = 'contain';
+
+    overlay.appendChild(largeImg);
+
+    // 닫기 기능
+    overlay.addEventListener('click', () => overlay.remove());
+    document.body.appendChild(overlay);
+  }
+});
+</script>
+
+
+
+<!-- ===== 푸터 ===== -->
+    <footer>
+        <p>
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+                 alt="Moltiz! Maltiz! Logo" class="footer-logo">
+            <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+        </p>
+        <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+        <p><strong>Email</strong>: minwooji00@xxx.com</p>
+        <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+    </footer>
+
+<!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+<script src="script.js"></script>
+    
+</body>
+</html>

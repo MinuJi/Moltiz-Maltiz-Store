@@ -1,0 +1,248 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* 메인 컨테이너 */
+.figure-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 30px;
+  border: 3px solid rgb(22, 124, 241);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* 상품 상세 전체 박스 */
+.figure-info-horizontal {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 왼쪽 이미지 */
+.figure-left img {
+  width: 300px;
+  border-radius: 12px;
+  border: 2px solid #ccc;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 가운데 텍스트 박스 */
+.figure-right {
+  flex: 1;
+  min-width: 240px;
+}
+
+.figure-right h2 {
+  color: rgb(22, 124, 241);
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.figure-right p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+.quantity-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.quantity-box input {
+  width: 70px;
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+}
+
+.quantity-box span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.basket-btn,
+.buy-btn,
+.heart-btn {
+  padding: 10px 16px;
+  border: 2px solid rgb(22, 124, 241);
+  background-color: white;
+  color: rgb(22, 124, 241);
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.basket-btn:hover,
+.buy-btn:hover {
+  background-color: rgb(22, 124, 241);
+  color: white;
+}
+
+.heart-btn {
+  font-size: 20px;
+  width: 50px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 2px solid rgb(22, 124, 241);
+  background-color: white;
+  color: rgb(22, 124, 241);
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  line-height: 1;
+}
+
+
+/* 오른쪽 피규어 6종 이미지 */
+.figure-type-image img {
+  width: 350px;
+  border-radius: 12px;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* 하단 설명 텍스트 */
+.figure-description {
+  font-size: 30px;
+  margin: 20px auto 0 auto; /* 상단 여백 + 좌우 auto로 가운데 정렬 */
+  color: rgb(22, 124, 241);
+  background-color: #f0f8ff;
+  padding: 10px 16px;
+  border: 2px solid rgb(22, 124, 241);
+  border-radius: 8px;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.figure-description:hover {
+  background-color: rgb(22, 124, 241);
+  color: white;
+}
+
+
+/*하트버튼 스타일*/
+.heart-btn.liked {
+  color: red;
+  border-color: red;
+  background-color: #ffecec;
+}
+
+
+/* 이미지 클릭 확대용 */
+.clickable-image {
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+}
+
+.clickable-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* 오버레이 전체 배경 */
+.image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: zoom-out;
+}
+
+/* 확대된 이미지 */
+.image-overlay img {
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  transition: transform 0.3s ease;
+  max-width: 98%;
+  max-height: 98%;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 4px solid rgb(22, 124, 241);
+  padding: 40px;
+  z-index: 9999;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: min(450px, 90vw);
+  font-size: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-actions .btn-primary,
+.confirm-actions .btn-secondary {
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid rgb(22, 124, 241);
+  background-color: white;
+  color: rgb(22, 124, 241);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.confirm-actions .btn-primary:hover,
+.confirm-actions .btn-secondary:hover {
+  background-color: rgb(22, 124, 241);
+  color: white;
+}

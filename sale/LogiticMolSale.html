@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Moltiz Random Figure</title>
+  <link rel="stylesheet" href="../Mainstyle.css" />  <!--.. 은 "상위 폴더"라는 의미인데, **반드시 슬래시(/)**를 붙여야 합니다.--> 
+  <link rel="stylesheet" href="BasketSale.css" />
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+    <header>
+        <div class="header-container">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <!-- 로고 + 홈 -->
+                <div class="logo">
+                    <a href="../Home.html" class="home-btn" aria-label="Go to Home">
+                        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png"
+                            alt="Moltiz! Maltiz! Logo" />
+                        <span class="brand-text">Moltiz! Maltiz!</span>
+                    </a>
+                </div>
+
+                <!-- 검색창 -->
+                <form class="search-bar" action="../search.html" method="get" role="search">
+                    <label class="sr-only" for="q"></label>
+                    <input id="q" name="q" type="text" placeholder="Please search for it" />
+                    <button class="search-btn" type="submit" aria-label="Search">
+                        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png"
+                            alt="" class="search-icon" />
+                    </button>
+                </form>
+
+                <!-- 유저 메뉴 -->
+                <nav class="user-menu" aria-label="User menu">
+                    <span id="auth-guest">
+                        <a href="../Login.html">Login</a>
+                        <a href="../Join.html">Join</a>
+                    </span>
+
+                    <span id="auth-member" class="auth-member">
+                        <span id="welcome-name"></span>
+                        <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+                    </span>
+
+                    <a href="../MyPage.html">MyPage</a>
+                    <a href="../basket.html">Shopping Basket</a>
+                    <a href="../service.html">Customer Service</a>
+                </nav>
+            </div>
+
+            <!-- 네비게이션 메뉴 -->
+            <nav class="menu" aria-label="Primary">
+                <a href="#">All Category</a>
+                <a href="../What.html">What is Moltiz, Maltiz?</a>
+                <a href="../sale.html">Sale</a>
+                <a href="../best.html">Best</a>
+                <a href="../store.html">Store</a>
+                <a href="../BookMark.html">BookMark</a>
+                <a href="../event.html">Event</a>
+                <a href="../Gallery.html">Gallery</a>
+                <a href="../Minigame.html">Mini Game</a>
+            </nav>
+        </div>
+    </header>
+
+  <!-- ===== 메인 ===== -->
+  <main class="figure-container">
+
+    <!-- 상품 정보 -->
+    <section class="figure-info-horizontal">
+      <div class="figure-left">
+          <div class="product-card">
+          <div class="discount-badge">20% DC!</div>
+    <img 
+    src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png" 
+    alt="Figure Image" 
+    class="clickable-image"/>
+      </div>
+
+      <div class="figure-right">
+        <h2>Moltiz Logistic</h2>
+        <div class="price-row">
+        <div class="discount-badge">20% DC!</div>
+        <div class="price-text">
+        <strong>$6</strong> <del>$8</del>
+        </div>
+      </div>
+        <p><strong>Delivery Fee:</strong> $1</p>
+
+        <div class="quantity-box">
+        <label for="quantity-input" class="visually-hidden">Quantity</label>
+        <input id="quantity-input" type="number" min="1" value="1" />
+        <span>Total $8</span>
+       </div>
+
+
+        <div class="button-group">
+          <button
+      class="heart-btn"
+      type="button"
+      aria-label="Like Moltiz Logistic"
+      data-id="p-logiticmol-sale"
+      data-name="Moltiz Logistic (Sale)"
+      data-price="6"
+      data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png"
+      data-url="/LogiticMolSale.html">♡</button>
+
+          <!-- Add to Basket 버튼 -->
+          <form action="basket/basketMolSale.html" method="get">
+          <button type="submit" class="basket-btn">Add to Basket</button>
+          </form>
+
+          <button id="buyNow" class="buy-btn">Buy Now</button>  <!-- 수정함 !!-->
+        </div>
+
+          <!-- Coupon selector -->
+      <div class="coupon-box">
+        <label for="couponSelect"><strong>Coupon:</strong></label>
+        <select id="couponSelect">
+        <option value="">-- No coupon --</option>
+        </select>
+        <div id="couponHint" class="coupon-hint"></div>
+      </div>
+    </div>
+      <div class="figure-type-image">
+        <img
+       src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/2a7103ba-be52-4295-ae7a-383a93366592.png"
+       alt="Moltiz"
+       class="clickable-image"/>
+      </div>
+    </section>
+
+    <!-- 하단 설명 -->
+    <p class="figure-description">Moltiz Logistic Decorate your carrier!</p>
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+    <footer>
+        <p>
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+                 alt="Moltiz! Maltiz! Logo" class="footer-logo">
+            <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+        </p>
+        <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+        <p><strong>Email</strong>: minwooji00@xxx.com</p>
+        <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+    </footer>
+
+  <script>
+  const quantityInput = document.getElementById('quantity-input');
+  const totalPriceSpan = document.querySelector('.quantity-box span');
+  const unitPrice = 6;
+  const deliveryFee = 1;
+
+  function updateTotal() {
+    const quantity = parseInt(quantityInput.value) || 1;
+    const total = unitPrice * quantity + deliveryFee;
+    totalPriceSpan.textContent = `Total $${total}`;
+  }
+
+  quantityInput.addEventListener('input', updateTotal);
+
+
+  // 초기 총액 계산
+  updateTotal();
+</script>
+
+<!-- ===== 이미지 확대 팝업 기능 ===== -->
+<script>
+  document.querySelectorAll('.clickable-image').forEach(img => {
+    img.addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.classList.add('image-overlay');
+
+      const largeImg = document.createElement('img');
+      largeImg.src = img.src;
+
+      // 확대 크기 조정 (클래스명이나 alt로 구분 가능)
+      if (img.alt === "Moltiz" || img.alt === "Maltiz") {
+        largeImg.style.maxWidth = '98%';
+        largeImg.style.maxHeight = '98%';
+      } else {
+        largeImg.style.maxWidth = '95%';
+        largeImg.style.maxHeight = '95%';
+      }
+
+      overlay.appendChild(largeImg);
+      overlay.addEventListener('click', () => overlay.remove());
+
+      document.body.appendChild(overlay);
+    });
+  });
+</script>
+
+<!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="../search.js" defer></script>
+
+<script src="../script.js"></script>
+
+<!-- Confirm Modal -->
+<div id="confirmOverlay" class="confirm-overlay hidden">
+  <div class="confirm-modal">
+    <h3 id="confirmTitle">Are you sure you want to buy it?</h3>
+    <div class="confirm-actions">
+      <button id="confirmYes" class="btn-primary">Yes</button>
+      <button id="confirmNo"  class="btn-secondary">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- 즐겨찾기 모듈 먼저 -->
+<script src="../BookMark.js"></script>
+
+<script src="../coupon.js"></script>
+
+<!-- buy.js를 모달 HTML 뒤에 불러오기 -->
+<script src="../buy.js"></script>
+
+<script>
+  window.PRODUCT_ID = 57; // 이 상품의 실제 id
+</script>
+<script src="../pay.js"></script>
+
+
+</body>
+</html>

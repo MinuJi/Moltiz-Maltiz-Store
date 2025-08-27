@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Membership - Moltiz! Maltiz!</title>
+
+  <link rel="stylesheet" href="Mainstyle.css"/>
+  <link rel="stylesheet" href="memberStyle.css"/>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <div class="top-bar">
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <nav class="user-menu" aria-label="User menu">
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 메인 ===== -->
+  <main class="member-container">
+    <h2 class="member-title"><a href="./Home.html">Moltiz! Maltiz!</a></h2>
+    <h3 class="member-subtitle">Membership</h3>
+
+    <!-- 상태 박스 -->
+    <section id="memberStatus" class="member-status">
+      <div class="member-status-row">
+        <strong>Membership</strong>
+        <span id="ms-level" class="badge">LV1</span>
+        <span id="ms-sum" class="sum">누적 0원</span>
+      </div>
+      <div id="ms-next" class="next">다음 등급 안내를 불러오는 중…</div>
+      <div class="bar-wrap" aria-label="Progress to next tier">
+        <div id="ms-bar" class="bar"></div>
+      </div>
+    </section>
+
+    <!-- 로그인 이름 + 레벨 줄 -->
+ <!-- 로그인된 이름 + 레벨 줄 -->
+<div class="member-info" id="memberInfo">
+  <strong id="mi-name">Guest</strong>: <span id="mi-level-text">LV1 Retriever</span>
+</div>
+
+<!-- ✅ 현재 테마/등급 대표 이미지 -->
+<div id="memberHero" class="member-hero">
+  <img id="memberHeroImg" class="zoomable" alt="Current Membership Hero">
+</div>
+
+    <p class="member-desc">The benefits vary depending on the rating!</p>
+
+    <div class="level-cards">
+      <!-- (카드들 기존 그대로) -->
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/f6/24/9e/f6249e48013bb7ae2c2fd2e8762dc82c.jpg" alt="LV1 Retriever">
+        <p class="level-text">Promotion to LV10 for purchases over 100,000₩</p>
+        <span>Level 1 Benefit: Get 5,000₩ Discount coupon</span>
+      </div>
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/0d/5f/c3/0d5fc34bf0384818ebc0ddac2ee0d1ee.jpg" alt="LV10 Retriever">
+        <p class="level-text">Promotion to LV100 for purchases over 1,000,000₩</p>
+       <span>Level 10 Benefit: 1. Get 10,000₩ Discount coupon  2. Get 5,000₩ Discount coupon</span>
+      </div>
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/1c/3a/38/1c3a3859dab32019c0ca7c8cd9edf620.jpg" alt="LV100 Retriever">
+        <span>Level 100 Benefit: 1. Free shipping for every purchase 2. Get 100,000₩ Discount Coupon</span>
+      </div>
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/98/e9/63/98e9635353c49cce889b36c734962859.jpg" alt="LV1 Maltiz">
+        <p class="level-text">Promotion to LV10 for purchases over 100,000₩</p>
+        <span>Level 1 Benefit: Get 5,000₩ Discount coupon</span>
+      </div>
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/4b/40/d6/4b40d69fa7bd91fee9a2aa954965fcfc.jpg" alt="LV10 Maltiz">
+        <p class="level-text">Promotion to LV100 for purchases over 1,000,000₩</p>
+        <span>Level 10 Benefit: 1. Get 10,000₩ Discount coupon  2. Get 5,000₩ Discount coupon</span>
+      </div>
+      <div class="level-card">
+        <img src="https://i.pinimg.com/1200x/c9/a2/8e/c9a28eb2973183caa9fdf5e474a38c55.jpg" alt="LV100 Maltiz">
+        <span>Level 100 Benefit: 1. Free shipping for every purchase 2. Get 100,000₩ Discount Coupon</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+  <footer>
+    <p>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+           alt="Moltiz! Maltiz! Logo" class="footer-logo">
+      <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+  </footer>
+
+  <!-- 공통 스크립트(1회) -->
+  <script src="script.js"></script>
+
+  <!-- 이미지 클릭 확대(유지) -->
+  <script>
+  document.querySelectorAll('.level-card img,#memberHeroImg').forEach(img => {
+    img.addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.classList.add('image-overlay');
+      const largeImg = document.createElement('img');
+      largeImg.src = img.src;
+      overlay.appendChild(largeImg);
+      overlay.addEventListener('click', () => overlay.remove());
+      document.body.appendChild(overlay);
+    });
+  });
+  </script>
+  <!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+  <!-- 이 페이지 전용 -->
+  <script src="membership.js"></script>
+</body>
+</html>

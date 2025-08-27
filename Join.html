@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join - Moltiz! Maltiz!</title>
+
+  <!-- 공통/페이지 스타일 (있으면) -->
+  <link rel="stylesheet" href="Mainstyle.css" />
+  <link rel="stylesheet" href="JoinStyle.css" />
+
+  <!-- 페이지 전용 스크립트 -->
+  <script src="join.js" defer></script>
+</head>
+<body>
+  <main class="join-container">
+    <h2 class="join-title">
+      <a href="./Home.html">Moltiz! Maltiz!</a>
+    </h2>
+    <h3 class="join-subtitle">Join Membership</h3>
+
+    <!-- 캐릭터 이미지 (옵션) -->
+    <div class="join-images" aria-hidden="true">
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/0febd691-d869-40f4-9489-b912a0eb54a2.png" alt="Left Character">
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/845a9688-8bb6-4bc2-9b52-3aaaa15d0ebc.png" alt="Right Character">
+    </div>
+
+    <!-- 회원가입 폼 -->
+    <form class="join-form" id="joinForm" novalidate>
+      <!-- Email -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6c3a20be-6bd4-48a2-9616-b7ade26319cd.png" alt="" aria-hidden="true">
+        <input type="email" id="email" name="email" placeholder="ID (Email)" autocomplete="email" required />
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/9bfee8eb-0e4e-4e55-a976-bb6b19156ffc.png" alt="" aria-hidden="true">
+        <input type="password" id="password" name="password" placeholder="Password" minlength="6" autocomplete="new-password" required />
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/d885301d-4e0a-4472-a319-a082eda3bb06.png" alt="" aria-hidden="true">
+        <input type="password" id="password2" placeholder="Check the Password" minlength="6" autocomplete="new-password" required />
+      </div>
+
+      <!-- Name -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/acb0ece0-b3f0-4a53-b9d7-20ff829d0c42.png" alt="" aria-hidden="true">
+        <input type="text" id="name" name="name" placeholder="Name" autocomplete="name" required />
+      </div>
+
+      <!-- ✅ Gender -->
+      <fieldset class="input-group gender-group">
+        <legend>Gender</legend>
+        <label class="radio">
+          <input type="radio" name="gender" id="genderMale" value="male" required />
+          <span>Male</span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="gender" id="genderFemale" value="female" required />
+          <span>Female</span>
+        </label>
+      </fieldset>
+
+      <!-- Address -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/eb3f4307-f62b-4b18-b52f-98e240b231fe.png" alt="" aria-hidden="true">
+        <input type="text" id="address" name="address" placeholder="Address" autocomplete="street-address" required />
+      </div>
+
+      <!-- Phone -->
+      <div class="input-group">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/14ca8a1f-c602-4fd9-a0a2-b65bcf0e366b.png" alt="" aria-hidden="true">
+        <input type="tel" id="phone" name="phone" placeholder="Phone Number" inputmode="tel" autocomplete="tel" required />
+      </div>
+
+      <!-- 에러 메시지 표기 영역 -->
+      <p id="joinErr" class="join-error" role="alert" aria-live="polite"></p>
+
+      <button type="submit" class="join-btn" id="joinBtn">Sign up for membership</button>
+    </form>
+  </main>
+</body>
+</html>
