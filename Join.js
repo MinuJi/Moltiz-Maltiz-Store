@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const genderMaleEl   = document.getElementById('genderMale');
   const genderFemaleEl = document.getElementById('genderFemale');
 
-  // same-origin이면 빈 문자열
   const API_BASE = '';
 
   form?.addEventListener('submit', onSubmit);
@@ -26,15 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const password2 = pass2El.value || '';
     const name = (nameEl.value || '').trim();
     const address = (addrEl?.value || '').trim();
-    // 숫자만 저장
     const phone = (phoneEl?.value || '').replace(/[^0-9]/g, '');
 
-    // ✅ Gender
     let gender = '';
-    if (genderMaleEl?.checked) gender = 'male';
-    if (genderFemaleEl?.checked) gender = 'female';
+    if (genderMaleEl?.checked) gender = 'Male';
+    if (genderFemaleEl?.checked) gender = 'Female';
 
-    // --- 클라 검증 ---
     if (!email || !password || !name) {
       return showError('Email, password, and name are required.');
     }
@@ -73,17 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (code) {
           case 'INVALID_INPUT':
             return showError('Invalid input. Please check your fields.');
-          case 'REGISTER_FAILED':
-            return showError('Sign-up failed. The email may already be in use.');
+          case 'EMAIL_EXISTS':
+            return showError('This email is already registered.');
+          case 'INVALID_GENDER':
+            return showError('Invalid gender selected.');
           default:
             return showError(data?.error || `Sign-up failed (HTTP ${res.status}).`);
         }
       }
 
-      // 성공 시: 프론트에서도 theme 저장 (Male→Retriever, Female→Maltiz)
-      const theme = gender === 'female' ? 'Maltiz' : 'Retriever';
+      // 성공 → 테마 저장
+      const theme = gender === 'Female' ? 'Maltiz' : 'Retriever';
       localStorage.setItem('memberTheme', theme);
-      localStorage.setItem('userName', name); // 편의상 이름도 저장
+      localStorage.setItem('userName', name);
 
       alert('Sign-up successful! Redirecting to login page...');
       location.href = '/Login.html';
@@ -95,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ---- 유틸 ----
   function setBusy(flag) {
     if (btn) btn.disabled = flag;
     if (form) form.style.opacity = flag ? 0.7 : 1;

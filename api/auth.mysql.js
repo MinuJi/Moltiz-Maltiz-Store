@@ -1,21 +1,20 @@
 // api/auth.mysql.js
-
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
-/** gender 정규화 유틸: male/female 로만 저장 */
+/** gender 정규화 유틸: DB 스키마 ENUM('Male','Female')에 맞춤 */
 function normalizeGender(v) {
   if (!v) return null;
   const s = String(v).trim().toLowerCase();
-  if (s === 'male' || s === 'm') return 'male';
-  if (s === 'female' || s === 'f') return 'female';
+  if (s === 'male' || s === 'm') return 'Male';
+  if (s === 'female' || s === 'f') return 'Female';
   return null;
 }
 
-/** /api/auth/me: 항상 DB에서 최신값 읽어 세션과 함께 반환  */
+/** /api/auth/me */
 router.get('/me', async (req, res) => {
   try {
     if (!req.session?.user?.id) {
@@ -27,7 +26,6 @@ router.get('/me', async (req, res) => {
     );
     if (!u) return res.status(401).json({ ok:false, error:'NOT_LOGGED_IN' });
 
-    // 세션도 최신값으로 동기화
     req.session.user = { id: u.id, email: u.email, name: u.name, gender: u.gender || null };
     return res.json({ ok:true, user: req.session.user });
   } catch (e) {
@@ -43,9 +41,14 @@ router.post('/register', async (req, res) => {
     if (!email || !name || !password) {
       return res.status(400).json({ ok:false, error:'INVALID_INPUT' });
     }
+
+    // 이메일 중복 검사
+    const [[dup]] = await pool.query('SELECT id FROM users WHERE email=? LIMIT 1', [email]);
+    if (dup) return res.status(409).json({ ok:false, error:'EMAIL_EXISTS' });
+
     const hash = await bcrypt.hash(password, 10);
     const phoneNorm = (phone || '').replace(/\D/g, '') || null;
-    const genderNorm = normalizeGender(gender); // 'male' | 'female' | null
+    const genderNorm = normalizeGender(gender); // 'Male' | 'Female' | null
 
     await pool.query(
       'INSERT INTO users (email, name, password_hash, address, phone, gender) VALUES (?, ?, ?, ?, ?, ?)',
@@ -55,6 +58,12 @@ router.post('/register', async (req, res) => {
     res.json({ ok:true });
   } catch (e) {
     console.error('POST /api/auth/register error:', e);
+    if (e?.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ ok:false, error:'EMAIL_EXISTS' });
+    }
+    if (e?.code === 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD') {
+      return res.status(400).json({ ok:false, error:'INVALID_GENDER' });
+    }
     res.status(400).json({ ok:false, error:'REGISTER_FAILED' });
   }
 });
