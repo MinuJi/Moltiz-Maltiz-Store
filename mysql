@@ -1,0 +1,130 @@
+//Visual Studio에서 잘 돌아가는 이유
+//→ HTML/JS는 원래 브라우저에서만으로도 잘 실행돼요.
+//→ localStorage 캐싱된 사용자 이름(Welcome, 지민우!)도 그냥 클라이언트에서 읽어서 표시 가능해요.
+//→ 그래서 백엔드(API 서버)가 없어도 겉보기에는 로그인/로그아웃 UI가 움직이는 것처럼 보일 수 있음.
+
+
+* 터미널에서 sql들어가기 sudo mysql → 비밀번호 안 물어보고 바로 들어갈 수 있습니다.
+ 
+* 터미널에서 -u moltiz -p moltiz 비번 0715로 설정
+  mysql -h 127.0.0.1 -P 3306 --user=moltiz --password=0715 moltiz 복붙
+
+* 테이블 목록보기 SHOW TABLES;
+
+
+SELECT id, email, name, gender, address, phone, created_at
+FROM users
+ORDER BY id DESC
+LIMIT 50;
+ -- 고객 정보
+
+
+
+ USE moltiz;
+
+SELECT id, name, price, stock, image_url
+FROM products
+ORDER BY id;
+ -- 상품 재고
+
+
+
+UPDATE products
+SET stock = CASE id
+  WHEN 4  THEN 100   -- 상품 ID 4번 → 재고 100개로
+  WHEN 25 THEN 100   -- ID 25번 → 100개
+  WHEN 26 THEN 100   -- ID 26번 → 100개
+  WHEN 33 THEN 100   -- ID 33번 → 100개
+END
+WHERE id IN (4,25,26,33);
+
+
+
+UPDATE products
+SET stock = 100  ---단일상품 재고 늘리기
+WHERE id = 55;
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+-- 1) 특정 사용자들 기록만 지우기 (예: user_id 1, 3)
+DELETE FROM order_items
+WHERE order_id IN (SELECT id FROM orders WHERE user_id IN (1,10));
+
+DELETE FROM orders
+WHERE user_id IN (1,10);
+
+SET SQL_SAFE_UPDATES = 1;
+
+USE moltiz;
+SET SQL_SAFE_UPDATES = 0;
+-- 멤버쉽 초기화
+-- 네가 쓰던 초기화
+DELETE FROM order_items
+WHERE order_id IN (SELECT id FROM orders WHERE user_id IN (1,10));
+
+DELETE FROM orders
+WHERE user_id IN (1,10);
+
+-- ▼ 여기부터 추가: "LV1 한 장만 남기기" ▼
+
+-- LV1 외 쿠폰 전부 삭제
+DELETE FROM user_coupons
+WHERE user_id IN (1,10)
+  AND coupon_code <> 'M_LV1_5K';
+
+-- LV1이 여러 장이면 1장만 남기고 나머지 삭제
+DELETE uc1
+FROM user_coupons uc1
+JOIN user_coupons uc2
+  ON uc1.user_id = uc2.user_id
+ AND uc1.coupon_code = uc2.coupon_code
+ AND uc1.id > uc2.id
+WHERE uc1.user_id IN (1,10)
+  AND uc1.coupon_code = 'M_LV1_5K';
+
+-- 남겨둔 LV1을 미사용/비만료로 리셋
+UPDATE user_coupons
+SET used_order_id = NULL,
+    expires_at    = NULL
+WHERE user_id IN (1,10)
+  AND coupon_code = 'M_LV1_5K';
+
+-- LV1이 아예 없던 유저는 1장 생성
+INSERT INTO user_coupons (user_id, coupon_code, expires_at, used_order_id)
+SELECT u.uid, 'M_LV1_5K', NULL, NULL
+FROM (SELECT 1 AS uid UNION ALL SELECT 10) AS u
+LEFT JOIN user_coupons x
+  ON x.user_id = u.uid AND x.coupon_code = 'M_LV1_5K'
+WHERE x.user_id IS NULL;
+
+SET SQL_SAFE_UPDATES = 1;
+
+
+
+USE moltiz; -- ✅ 주문내역
+
+SELECT 
+    u.id AS user_id,
+    u.email,
+    u.phone,               -- ✅ 전화번호 컬럼 추가
+    u.name AS user_name,
+    u.gender,              -- ✅ 성별 추가
+    o.id AS order_id,
+    o.created_at AS order_date,
+    p.name AS product_name,
+    oi.quantity,
+    oi.price,
+    (oi.quantity * oi.price) AS total_price
+FROM users u
+LEFT JOIN orders o 
+    ON u.id = o.user_id
+LEFT JOIN order_items oi 
+    ON o.id = oi.order_id
+LEFT JOIN products p 
+    ON oi.product_id = p.id
+ORDER BY u.id DESC, o.id DESC
+LIMIT 50;
+
+
+나가는거:\q

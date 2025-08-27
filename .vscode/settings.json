@@ -1,5 +1,0 @@
-{
-  "files.associations": { "*.sql": "mysql" },
-  "mssql.intelliSense.enableErrorChecking": false
-}
-
