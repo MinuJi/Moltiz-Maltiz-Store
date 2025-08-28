@@ -8,23 +8,33 @@ const cors = require('cors');
 
 const app = express();
 
-/* ─────────────────────────────────────────────────────────────
- * 1) 프록시/HTTPS 환경(Codespaces 등)에서 쿠키 잘 전달되도록
- * ───────────────────────────────────────────────────────────── */
-app.set('trust proxy', 1); // Codespaces/리버스프록시 환경 권장
+/* 1) 프록시/HTTPS 환경(Codespaces/리버스프록시) */
+app.set('trust proxy', 1);
 
-/* ─────────────────────────────────────────────────────────────
- * 2) CORS & JSON
- * ───────────────────────────────────────────────────────────── */
+/* 2) CORS & JSON */
+const ALLOW_ORIGINS = [
+  // 프론트(정적) 도메인들을 여기에 추가
+  'https://opulent-fortnight-jjgi9x65jprc5j6v-8080.app.github.dev',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:5500'
+];
+
 app.use(cors({
-  origin: true,              // 요청 Origin을 그대로 허용
-  credentials: true,         // 쿠키 포함 허용
+  origin(origin, cb) {
+    if (!origin) return cb(null, true); // 서버내 요청/헬스체크 등
+    cb(null, ALLOW_ORIGINS.includes(origin));
+  },
+  credentials: true,
 }));
+app.options('*', cors({
+  origin: (origin, cb) => cb(null, !origin || ALLOW_ORIGINS.includes(origin)),
+  credentials: true,
+}));
+
 app.use(express.json());
 
-/* ─────────────────────────────────────────────────────────────
- * 3) 세션 (MySQL에 저장)
- * ───────────────────────────────────────────────────────────── */
+/* 3) 세션 (MySQL 저장) */
 const MySQLStore = MySQLStoreFactory(session);
 const sessionStore = new MySQLStore({
   host:     process.env.MYSQL_HOST,
@@ -32,8 +42,10 @@ const sessionStore = new MySQLStore({
   user:     process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  // 필요시: createDatabaseTable: true
 });
+
+// 크로스도메인(https 정적 사이트 ↔ API)에서 쿠키 전달
+const USE_SECURE_COOKIE = true; // 깃허브 dev/https면 true
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev_secret',
   resave: false,
@@ -41,56 +53,44 @@ app.use(session({
   store: sessionStore,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60,   // 1시간
-    sameSite: 'lax',          // 기본값. 다른 오리진에서 쓰면 'none' + secure 필요
-    // secure: true,          // HTTPS 고정 환경이면 활성화
+    maxAge: 1000 * 60 * 60,     // 1시간
+    sameSite: USE_SECURE_COOKIE ? 'none' : 'lax',
+    secure:   USE_SECURE_COOKIE, // https 필수
   },
 }));
 
-/* ─────────────────────────────────────────────────────────────
- * 4) API 라우터
- * ───────────────────────────────────────────────────────────── */
+/* 4) API 라우터 */
 const authRouter = require('./api/auth.mysql');
 const shopRouter = require('./api/shop.mysql');
 
 app.use('/api/auth', authRouter);
 
-// 프론트 코드 호환성 위해 **두 위치 모두** 마운트
-// - /api/shop/... (원래 경로)
-// - /api/...      (프론트가 /api/checkout, /api/cart/add로 부를 때도 동작)
+// 프론트 호환을 위해 두 경로 모두 제공
 app.use('/api/shop', shopRouter);
 app.use('/api',      shopRouter);
 
-/* ─────────────────────────────────────────────────────────────
- * 5) 정적 파일 (public 폴더 없이, 프로젝트 루트 전체)
- *    ※ 개발 편의용. 운영시엔 전용 public 폴더를 권장.
- * ───────────────────────────────────────────────────────────── */
+/* 5) 정적 파일(프로젝트 루트) */
 app.use(express.static(path.join(__dirname)));
 
-// 루트 접근 시 Home.html이 있으면 보여주기(선택)
+// 루트 접근 시 Home.html 제공(옵션)
 app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'Home.html'), (err) => {
-    if (err) next(); // Home.html 없으면 넘김
+    if (err) next();
   });
 });
 
-/* ─────────────────────────────────────────────────────────────
- * 6) 헬스 체크
- * ───────────────────────────────────────────────────────────── */
+/* 6) 헬스 체크 */
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
-/* ─────────────────────────────────────────────────────────────
- * 7) 에러 핸들러 (JSON)
- * ───────────────────────────────────────────────────────────── */
+/* 7) 에러 핸들러 */
 app.use((err, _req, res, _next) => {
   console.error('[SERVER ERROR]', err);
   res.status(500).json({ ok: false, error: 'INTERNAL_SERVER_ERROR' });
 });
 
-/* ─────────────────────────────────────────────────────────────
- * 8) 서버 시작
- * ───────────────────────────────────────────────────────────── */
+/* 8) 서버 시작 */
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`✅ API server on http://localhost:${port}`);
 });
+

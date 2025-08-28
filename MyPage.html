@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="MyStyle.css"/>
 </head>
 <body>
-
   <!-- ===== Header ===== -->
   <header>
     <div class="header-container">
@@ -74,7 +73,7 @@
 
       <div class="search-box">
         <input id="orderSearch" type="text" placeholder="You can search for the items you ordered">
-        <button id="orderSearchBtn">
+        <button id="orderSearchBtn" aria-label="Search orders">
           <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="Search">
         </button>
       </div>
@@ -112,12 +111,17 @@
     <p><strong>Email</strong>: minwooji00@xxx.com</p>
     <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
   </footer>
-  <!-- 모든 페이지의 </body> 직전에 추가 -->
-<script src="search.js" defer></script>
 
-  <!-- 공통 스크립트(1회) -->
+  <!-- ===== 스크립트 ===== -->
+  <script src="search.js" defer></script>
   <script src="script.js"></script>
-  <!-- 이 페이지 전용 -->
-  <script src="mypage.js"></script>
+
+   <!-- 여기 추가 -->
+  <script>
+    // 같은 오리진이면 API_BASE는 빈 문자열 하... 또 대문자...경로 오류 
+    window.API_BASE = '';
+  </script>
+
+  <script src="MyPage.js"></script>
 </body>
 </html>

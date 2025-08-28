@@ -497,6 +497,35 @@ header{
   filter: saturate(1.02) contrast(1.02);
 }
 
+/* === 이전/다음 버튼 === */
+.promo-btn{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  width:42px; height:42px;
+  border-radius:999px;
+  border:1px solid rgba(22,124,241,.25);
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 8px 20px rgba(0,0,0,.10);
+  display:grid; place-items:center;
+  font-size:22px; line-height:1; font-weight:700;
+  color: var(--blue);
+  cursor:pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .2s ease;
+  z-index: 2;
+}
+.promo-prev{ left:10px; }
+.promo-next{ right:10px; }
+.promo-btn:hover{ transform: translateY(-50%) scale(1.06); border-color: var(--brand); }
+.promo-btn:active{ transform: translateY(-50%) scale(0.98); }
+.promo-btn:disabled{ opacity:.45; cursor: default; }
+
+/* 모바일에서 버튼이 너무 커 보이면 줄이기 */
+@media (max-width: 520px){
+  .promo-btn{ width:36px; height:36px; font-size:20px; }
+}
+
+
 /* 이미지 위 제목 */
 .promo-title{
   position:absolute; left:16px; top:14px;

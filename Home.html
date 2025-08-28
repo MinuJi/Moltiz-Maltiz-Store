@@ -76,20 +76,24 @@
       </section>
 
       <!-- 프로모 로테이터 -->
-  <section class="promo-rotator"
-           aria-roledescription="carousel"
-           aria-label="추천 배너"
-           data-interval="1000">
-    <a id="promoLink" class="promo-link">
-  <img id="promoImg" alt="" />
-  <div id="promoTitle" class="promo-title"></div>
-</a>
+<section class="promo-rotator"
+         aria-roledescription="carousel"
+         aria-label="추천 배너"
+         data-interval="1000"
+         tabindex="0">  <!-- ← 키보드 화살표 지원 위해 포커스 가능 -->
 
+  <a id="promoLink" class="promo-link">
+    <img id="promoImg" alt="" />
+    <div id="promoTitle" class="promo-title"></div>
+  </a>
 
-    <!-- 인디케이터 점 -->
-    <div class="promo-dots" id="promoDots"
-         role="tablist" aria-label="슬라이드 목록"></div>
-  </section>
+  <!-- ▶ 여기 추가: 이전/다음 버튼 -->
+  <button id="promoPrev" class="promo-btn promo-prev" type="button" aria-label="이전 슬라이드">‹</button>
+  <button id="promoNext" class="promo-btn promo-next" type="button" aria-label="다음 슬라이드">›</button>
+
+  <!-- 인디케이터 점 -->
+  <div class="promo-dots" id="promoDots" role="tablist" aria-label="슬라이드 목록"></div>
+</section>
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
@@ -218,10 +222,10 @@
 <script src="/BookMark.js"></script>
 
   <!-- 모든 페이지의 </body> 직전에 추가 -->
-<script src="search.js" defer></script>
+<script src="/search.js" defer></script>
 
-<script src="HomeSlides.js"></script>
+<script src="/HomeSlides.js"></script>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>

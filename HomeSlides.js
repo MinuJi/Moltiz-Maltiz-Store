@@ -32,6 +32,8 @@
   const imgEl  = document.getElementById('promoImg');
   const titleEl= document.getElementById('promoTitle');
   const dotsEl = document.getElementById('promoDots');
+  const prevBtn= document.getElementById('promoPrev');  // ← 추가
+  const nextBtn= document.getElementById('promoNext');  // ← 추가
 
   if (!root || !linkEl || !imgEl || !titleEl) return;
 
@@ -69,6 +71,7 @@
   }
 
   function next(){ idx = (idx+1) % slides.length; render(); }
+  function prev(){ idx = (idx-1+slides.length) % slides.length; render(); }  // ← 추가
   function go(i, user=false){
     idx = (i+slides.length) % slides.length;
     render();
@@ -81,6 +84,16 @@
 
   root.addEventListener('mouseenter', stop);
   root.addEventListener('mouseleave', start);
+
+   // ▶ 버튼 클릭 이벤트 (추가)
+  prevBtn?.addEventListener('click', () => { prev(); restart(); });
+  nextBtn?.addEventListener('click', () => { next(); restart(); });
+
+  // ▶ 키보드 화살표로 이동 (섹션에 tabindex="0" 추가했음)
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); restart(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); restart(); }
+  });
 
   render();
   start();

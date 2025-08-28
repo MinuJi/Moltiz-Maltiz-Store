@@ -45,3 +45,7 @@ function openConfirmModal(message = 'Are you sure you want to buy it?') {
     document.addEventListener('keydown', onEsc);
   });
 }
+
+
+
+

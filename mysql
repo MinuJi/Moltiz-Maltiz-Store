@@ -4,24 +4,37 @@
 //→ 그래서 백엔드(API 서버)가 없어도 겉보기에는 로그인/로그아웃 UI가 움직이는 것처럼 보일 수 있음.
 
 
+*My sql다운받기
+GitHub Codespaces (클라우드)
+
+sudo apt-get update
+sudo apt-get install -y mysql-server
+sudo service mysql start
+
+터미널에서
+mysql -h 127.0.0.1 -P 3306 -u moltiz -p0715 moltiz < db/schema.sql
+
+
 * 터미널에서 sql들어가기 sudo mysql → 비밀번호 안 물어보고 바로 들어갈 수 있습니다.
  
+*mysql -h 127.0.0.1 -P 3306 -u moltiz -p moltiz USE Moltiz로 바로 접속
+
 * 터미널에서 -u moltiz -p moltiz 비번 0715로 설정
   mysql -h 127.0.0.1 -P 3306 --user=moltiz --password=0715 moltiz 복붙
 
+
+
 * 테이블 목록보기 SHOW TABLES;
 
-
+-- 고객 정보
 SELECT id, email, name, gender, address, phone, created_at
 FROM users
 ORDER BY id DESC
 LIMIT 50;
- -- 고객 정보
 
 
 
  USE moltiz;
-
 SELECT id, name, price, stock, image_url
 FROM products
 ORDER BY id;
