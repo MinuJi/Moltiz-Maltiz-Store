@@ -67,29 +67,38 @@ async function getValidCoupon(conn, userId, couponCode) {
   return row; // { user_coupon_id, coupon_code, kind, amount, label, ... }
 }
 
-/* ======================== 1) 상품 목록 ======================== */
-router.get('/products', async (req, res, next) => {
+/* ======================== 1-1) 상품 단건 상세 ======================== */
+router.get('/products/:id', async (req, res, next) => {
   try {
-    const q = (req.query.q || '').trim(); // GET 파라미터 ?q=...
-    const limit = Math.min(parseInt(req.query.limit ?? '50', 10) || 50, 100);
-    const offset = Math.max(parseInt(req.query.offset ?? '0', 10) || 0, 0);
+    const [rows] = await pool.query(
+      `SELECT
+         id, name, price, sale_price, sale_ends_at, stock, image_url, shipping_fee,
+         IF(sale_price IS NOT NULL AND (sale_ends_at IS NULL OR sale_ends_at > NOW()),
+            sale_price, price) AS effective_price
+       FROM products
+       WHERE id = ?`,
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ ok:false, error:'NOT_FOUND' });
 
-    let sql = 'SELECT id, name, price, stock, image_url FROM products';
-    const params = [];
+    const r = rows[0];
+    const isOnSale = r.sale_price != null && (!r.sale_ends_at || new Date(r.sale_ends_at) > new Date());
 
-    if (q) {
-      sql += ' WHERE name LIKE ?';     // 상품명에서 검색
-      params.push(`%${q}%`);
-    }
-
-    sql += ' ORDER BY id DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
-
-    const [rows] = await pool.query(sql, params);
-    res.json({ ok:true, products: rows });
+    res.json({
+      id: String(r.id),
+      name: r.name,
+      price: Number(r.effective_price),
+      originalPrice: Number(r.price),
+      isOnSale,
+      saleEndAt: r.sale_ends_at,
+      currency: 'KRW',
+      image: r.image_url,
+      description: '',
+      deliveryFee: Number(r.shipping_fee || 0),
+      stock: Number(r.stock ?? 0),
+    });
   } catch (e) { next(e); }
 });
-
 
 /* ======================== 2) 장바구니 조회 ======================== */
 router.get('/cart', requireLogin, async (req, res, next) => {

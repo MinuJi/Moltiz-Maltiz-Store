@@ -68,129 +68,124 @@
   <!-- 메인 -->
   <main>
 
-    <!-- Welcome Section --> <section class="welcome"> 
-      <div class="speech-bubble left">Welcome!</div> 
-      <div class="welcome-character-wrapper"> 
-        <img src="https://www.kocca.kr/n_content/kocca_vol31/vol31/images/sub11_03.jpg" alt="Character 1"> </div> 
-        <div class="speech-bubble right">Here is Moltiz Maltiz site!</div> 
-      </section>
+    <!-- Welcome Section -->
+    <section class="welcome">
+      <div class="speech-bubble left">Welcome!</div>
+      <div class="welcome-character-wrapper">
+        <img src="https://www.kocca.kr/n_content/kocca_vol31/vol31/images/sub11_03.jpg" alt="Character 1">
+      </div>
+      <div class="speech-bubble right">Here is Moltiz Maltiz site!</div>
+    </section>
 
-      <!-- 프로모 로테이터 -->
-<section class="promo-rotator"
-         aria-roledescription="carousel"
-         aria-label="추천 배너"
-         data-interval="1000"
-         tabindex="0">  <!-- ← 키보드 화살표 지원 위해 포커스 가능 -->
-
-  <a id="promoLink" class="promo-link">
-    <img id="promoImg" alt="" />
-    <div id="promoTitle" class="promo-title"></div>
-  </a>
-
-  <!-- ▶ 여기 추가: 이전/다음 버튼 -->
-  <button id="promoPrev" class="promo-btn promo-prev" type="button" aria-label="이전 슬라이드">‹</button>
-  <button id="promoNext" class="promo-btn promo-next" type="button" aria-label="다음 슬라이드">›</button>
-
-  <!-- 인디케이터 점 -->
-  <div class="promo-dots" id="promoDots" role="tablist" aria-label="슬라이드 목록"></div>
-</section>
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    <!-- 프로모 로테이터 -->
+    <section class="promo-rotator"
+             aria-roledescription="carousel"
+             aria-label="추천 배너"
+             data-interval="1000"
+             tabindex="0">
+      <a id="promoLink" class="promo-link">
+        <img id="promoImg" alt="" />
+        <div id="promoTitle" class="promo-title"></div>
+      </a>
+      <button id="promoPrev" class="promo-btn promo-prev" type="button" aria-label="이전 슬라이드">‹</button>
+      <button id="promoNext" class="promo-btn promo-next" type="button" aria-label="다음 슬라이드">›</button>
+      <div class="promo-dots" id="promoDots" role="tablist" aria-label="슬라이드 목록"></div>
+    </section>
 
     <!-- 상품 섹션 -->
     <section class="products-section">
       <h2>PRODUCT</h2>
       <div class="products">
 
-  <div class="product-card">
-   <!-- 카드 클릭으로 상세 이동 -->
-   <div class="product-button" onclick="location.href='store/Blanket.html'">
-    <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png" alt="Moltiz Blanket">
-    <h3>Moltiz Blanket</h3>
-    <p>$20</p>
-   </div>
-
-  <!-- 하트 버튼: 즐겨찾기용 데이터 속성 필수 -->
-  <button
-   class="heart-btn"
-   type="button"
-   aria-label="Like Moltiz Blanket"
-   data-id="p-blanket"
-   data-name="Moltiz Blanket"
-   data-price="20"
-   data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png"
-   data-url="/Blanket.html">♡</button>
-</div>
-
+        <!-- Moltiz Blanket (id=4) -->
         <div class="product-card">
-  <div class="product-button" onclick="location.href='store/FigureFirst.html'">
-    <img src="https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/810c/b509ff268dd74b92f73abccceb619c3107e2649dae9a1aff72417078cb9e.jpg" alt="Moltiz Random Figure1">
-    <h3>Moltiz Random Figure1</h3>
-    <p>$3</p>
-  </div>
-  
-  <button
-    class="heart-btn"
-    type="button"
-    aria-label="Like Moltiz Random Figure1"
-    data-id="p-figure1"
-    data-name="Moltiz Random Figure1"
-    data-price="3"
-    data-image="https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/810c/b509ff268dd74b92f73abccceb619c3107e2649dae9a1aff72417078cb9e.jpg"
-    data-url="/FigureFirst.html">♡</button>
-</div>
+          <div class="product-button" onclick="location.href='store/product.html?id=4'">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png" alt="Moltiz Blanket">
+            <h3>Moltiz Blanket</h3>
+            <p>20000원</p>
+          </div>
+          <button
+            class="heart-btn"
+            type="button"
+            aria-label="Like Moltiz Blanket"
+            data-id="p-4"
+            data-name="Moltiz Blanket"
+            data-price="20000"
+            data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/a6add642-72ad-4590-a7b4-693a837973c7.png"
+            data-url="/store/product.html?id=4">♡</button>
+        </div>
 
-<div class="product-card">
-  <div class="product-button" onclick="location.href='store/FigureSecond.html'">
-    <img src="https://godomall.speedycdn.net/7005dcd972c52bd79615cc6621d0e4c4/goods/1000001208/image/detail/1000001208_detail_0100.jpg" alt="Moltiz Random Figure2">
-    <h3>Moltiz Random Figure2</h3>
-    <p>$3</p>
-  </div>
-  <button
-    class="heart-btn"
-    type="button"
-    aria-label="Like Moltiz Random Figure2"
-    data-id="p-figure2"
-    data-name="Moltiz Random Figure2"
-    data-price="3"
-    data-image="https://godomall.speedycdn.net/7005dcd972c52bd79615cc6621d0e4c4/goods/1000001208/image/detail/1000001208_detail_0100.jpg"
-    data-url="/FigureSecond.html">♡</button>
-</div>
+        <!-- Figure ver.1 (id=25) -->
+        <div class="product-card">
+          <div class="product-button" onclick="location.href='store/product.html?id=25'">
+            <img src="https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/810c/b509ff268dd74b92f73abccceb619c3107e2649dae9a1aff72417078cb9e.jpg" alt="Moltiz Random Figure1">
+            <h3>Moltiz Random Figure1</h3>
+            <p>3000원</p>
+          </div>
+          <button
+            class="heart-btn"
+            type="button"
+            aria-label="Like Moltiz Random Figure1"
+            data-id="p-25"
+            data-name="Moltiz Random Figure1"
+            data-price="3000"
+            data-image="https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/810c/b509ff268dd74b92f73abccceb619c3107e2649dae9a1aff72417078cb9e.jpg"
+            data-url="/store/product.html?id=25">♡</button>
+        </div>
 
-<div class="product-card">
-  <div class="product-button" onclick="location.href='store/LogiticMol.html'">
-    <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png" alt="Moltiz Logistic">
-    <h3>Moltiz Logistic</h3>
-    <p>$8</p>
-  </div>
-  <button
-    class="heart-btn"
-    type="button"
-    aria-label="Like Moltiz Logistic"
-    data-id="p-logiticmol"
-    data-name="Moltiz Logistic"
-    data-price="8"
-    data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png"
-    data-url="/LogiticMol.html">♡</button>
-</div>
+        <!-- Figure ver.2 (id=26) -->
+        <div class="product-card">
+          <div class="product-button" onclick="location.href='store/product.html?id=26'">
+            <img src="https://godomall.speedycdn.net/7005dcd972c52bd79615cc6621d0e4c4/goods/1000001208/image/detail/1000001208_detail_0100.jpg" alt="Moltiz Random Figure2">
+            <h3>Moltiz Random Figure2</h3>
+            <p>3000원</p>
+          </div>
+          <button
+            class="heart-btn"
+            type="button"
+            aria-label="Like Moltiz Random Figure2"
+            data-id="p-26"
+            data-name="Moltiz Random Figure2"
+            data-price="3000"
+            data-image="https://godomall.speedycdn.net/7005dcd972c52bd79615cc6621d0e4c4/goods/1000001208/image/detail/1000001208_detail_0100.jpg"
+            data-url="/store/product.html?id=26">♡</button>
+        </div>
 
-<div class="product-card">
-  <div class="product-button" onclick="location.href='store/LogiticMal.html'">
-    <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png" alt="Maltiz Logistic">
-    <h3>Maltiz Logistic</h3>
-    <p>$8</p>
-  </div>
-  <button
-    class="heart-btn"
-    type="button"
-    aria-label="Like Maltiz Logistic"
-    data-id="p-logiticmal"
-    data-name="Maltiz Logistic"
-    data-price="8"
-    data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png"
-    data-url="/LogiticMal.html">♡</button>
-</div>
+        <!-- Moltiz Logistic (id=44) -->
+        <div class="product-card">
+          <div class="product-button" onclick="location.href='store/product.html?id=44'">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png" alt="Moltiz Logistic">
+            <h3>Moltiz Logistic</h3>
+            <p>8000원</p>
+          </div>
+          <button
+            class="heart-btn"
+            type="button"
+            aria-label="Like Moltiz Logistic"
+            data-id="p-44"
+            data-name="Moltiz Logistic"
+            data-price="8000"
+            data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/6d843bc4-17c3-4e76-9110-3ea98a4abc6c.png"
+            data-url="/store/product.html?id=44">♡</button>
+        </div>
 
+        <!-- Maltiz Logistic (id=45) -->
+        <div class="product-card">
+          <div class="product-button" onclick="location.href='store/product.html?id=45'">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png" alt="Maltiz Logistic">
+            <h3>Maltiz Logistic</h3>
+            <p>8000원</p>
+          </div>
+          <button
+            class="heart-btn"
+            type="button"
+            aria-label="Like Maltiz Logistic"
+            data-id="p-45"
+            data-name="Maltiz Logistic"
+            data-price="8000"
+            data-image="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b85b074-e7d5-41b2-8504-e94ae23a3ac8.png"
+            data-url="/store/product.html?id=45">♡</button>
+        </div>
 
       </div>
     </section>
@@ -217,15 +212,11 @@
     <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
   </footer>
 
-  
-<!-- 즐겨찾기 모듈 먼저 -->
-<script src="/BookMark.js"></script>
-
-  <!-- 모든 페이지의 </body> 직전에 추가 -->
-<script src="/search.js" defer></script>
-
-<script src="/HomeSlides.js"></script>
-
-    <script src="/script.js"></script>
+  <!-- 스크립트 -->
+  <script src="/BookMark.js"></script>
+  <script src="/search.js" defer></script>
+  <script src="/HomeSlides.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>
+

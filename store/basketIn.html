@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basket (Item) - Moltiz! Maltiz!</title>
+  <link rel="stylesheet" href="basketInFFS.css?v=3">
+  <link rel="stylesheet" href="BasketSale.css" />
+</head>
+<body>
+  <div class="outer-wrapper">
+    <header>
+      <a href="../Home.html">
+        <h1 class="main-title">Moltiz! Maltiz!</h1>
+      </a>
+      <h2 class="subtitle">Basket</h2>
+    </header>
+
+    <main class="basket-container" id="root" hidden>
+      <!-- 상품 카드 -->
+      <section class="item-section">
+        <div class="item-box">
+          <img id="itemImg" alt="Product Image" class="item-img">
+
+          <div class="item-info">
+            <h3 id="itemName"></h3>
+            <p><strong>Price</strong> <span id="unitPrice"></span></p>
+            <p><strong>Delivery Fee</strong> <span id="delivery"></span></p>
+            <p><strong>Delivery time</strong> <span class="highlight">2days</span></p>
+
+            <div class="quantity-box">
+              <label for="quantity-input" class="visually-hidden">Quantity</label>
+              <input id="quantity-input" type="number" min="1" value="1" />
+
+              <!-- Coupon selector -->
+              <div class="coupon-box">
+                <label for="couponSelect"><strong>Coupon:</strong></label>
+                <select id="couponSelect">
+                  <option value="">-- No coupon --</option>
+                </select>
+                <div id="couponHint" class="coupon-hint"></div>
+              </div>
+
+              <span id="total-price">Total</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 삭제 버튼 -->
+        <button id="delete-btn" class="delete-btn">Delete</button>
+
+        <!-- 삭제 확인 모달(작은 모달) -->
+        <div id="delete-confirm" class="delete-confirm hidden">
+          <p>Are you sure you want to delete this product?</p>
+          <div class="confirm-buttons">
+            <button id="confirm-yes">Yes</button>
+            <button id="confirm-no">No</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 총 결제 영역 -->
+      <section class="summary-section">
+        <p><strong>Price</strong> <span id="price-value"></span></p>
+        <p><strong>Delivery Fee</strong> <span id="delivery-fee"></span></p>
+        <p><strong>Total Fee</strong> <span id="total-fee"></span></p>
+        <p class="summary-total"><span id="summary-final"></span></p>
+        <button id="buyNow" class="buy-btn">Buy Now</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- 데이터 로드 & 계산 -->
+  <script>
+    const fmtKRW = n => new Intl.NumberFormat('ko-KR').format(n) + '원';
+    const fmt = (n, c='KRW') =>
+      c === 'KRW' ? fmtKRW(n)
+                  : new Intl.NumberFormat('en-US', { style: 'currency', currency: c }).format(n);
+
+    const qs = new URLSearchParams(location.search);
+    const id  = qs.get('id');
+    const qty = Math.max(1, parseInt(qs.get('qty') || '1'));
+
+    (async () => {
+      if (!id) { document.body.innerHTML = '상품 ID가 없어요.'; return; }
+
+      const res = await fetch(`/api/products/${encodeURIComponent(id)}`);
+      if (!res.ok) { document.body.innerHTML = '상품을 불러오지 못했어요.'; return; }
+      const p = await res.json();
+
+      const currency   = p.currency || 'KRW';
+      const unitPrice  = Number(p.price);
+      const delivery   = Number(p.deliveryFee || 0);
+
+      // 상세 카드 채우기
+      document.getElementById('itemImg').src = p.image;
+      document.getElementById('itemImg').alt = p.name;
+      document.getElementById('itemName').textContent = p.name;
+      document.getElementById('unitPrice').textContent = fmt(unitPrice, currency);
+      document.getElementById('delivery').textContent  = delivery === 0 ? 'Free' : fmt(delivery, currency);
+
+      // 요약 채우기
+      document.getElementById('quantity-input').value = qty;
+      function renderTotals(n) {
+        const productTotal = unitPrice * n;
+        const finalTotal = productTotal + delivery;
+        document.getElementById('price-value').textContent   = fmt(productTotal, currency);
+        document.getElementById('delivery-fee').textContent  = delivery === 0 ? 'Free' : fmt(delivery, currency);
+        document.getElementById('total-price').textContent   = `Total ${fmt(finalTotal, currency)}`;
+        document.getElementById('total-fee').textContent     = fmt(finalTotal, currency);
+        document.getElementById('summary-final').textContent = fmt(finalTotal, currency);
+      }
+      renderTotals(qty);
+      document.getElementById('quantity-input').addEventListener('input', (e) => {
+        const n = Math.max(1, parseInt(e.target.value) || 1);
+        renderTotals(n);
+      });
+
+      // buy.js/pay.js 전역
+      window.PRODUCT_ID = p.id;
+      window.PRODUCT_NAME = p.name;
+      window.PRODUCT_PRICE = p.price;
+      window.PRODUCT_IMAGE = p.image;
+
+      // 화면 보이기
+      document.getElementById('root').hidden = false;
+    })();
+
+    // 삭제 모달 동작
+    document.addEventListener('DOMContentLoaded', () => {
+      const deleteBtn = document.getElementById('delete-btn');
+      const box = document.getElementById('delete-confirm');
+      const yes = document.getElementById('confirm-yes');
+      const no  = document.getElementById('confirm-no');
+
+      if (deleteBtn && box && yes && no) {
+        deleteBtn.addEventListener('click', () => box.classList.remove('hidden'));
+        yes.addEventListener('click', () => { location.href = '../basket.html'; });
+        no.addEventListener('click',  () => { box.classList.add('hidden'); });
+      }
+    });
+  </script>
+
+  <!-- 외부 스크립트 -->
+  <script src="../search.js" defer></script>
+  <script src="../coupon.js"></script>
+  <script src="../buy.js"></script>
+  <script src="../pay.js"></script>
+
+  <!-- Confirm Modal (buy.js에서 사용) -->
+  <div id="confirmOverlay" class="confirm-overlay hidden">
+    <div class="confirm-modal">
+      <h3 id="confirmTitle">Are you sure you want to buy it?</h3>
+      <div class="confirm-actions">
+        <button id="confirmYes" class="btn-primary">Yes</button>
+        <button id="confirmNo"  class="btn-secondary">No</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+

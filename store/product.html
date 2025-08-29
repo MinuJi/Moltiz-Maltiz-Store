@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="docTitle">Product - Moltiz! Maltiz!</title>
+  <meta id="metaDesc" name="description" content="Moltiz! Maltiz! Product Detail">
+  <link rel="stylesheet" href="../Mainstyle.css" />
+  <link rel="stylesheet" href="FigureFirstStyle.css" />
+</head>
+<body>
+  <!-- ===== Header (축약) ===== -->
+  <header>
+    <div class="header-container">
+      <div class="top-bar">
+        <div class="logo">
+          <a href="../Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo" />
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+        <form class="search-bar" action="../search.html" method="get" role="search">
+          <label class="sr-only" for="q">Search</label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon" />
+          </button>
+        </form>
+        <nav class="user-menu" aria-label="User menu">
+          <span id="auth-guest">
+            <a href="../Login.html">Login</a>
+            <a href="../Join.html">Join</a>
+          </span>
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+          <a href="../MyPage.html">MyPage</a>
+          <a href="../basket.html">Shopping Basket</a>
+          <a href="../service.html">Customer Service</a>
+        </nav>
+      </div>
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="../What.html">What is Moltiz, Maltiz?</a>
+        <a href="../sale.html">Sale</a>
+        <a href="../best.html">Best</a>
+        <a href="../store.html">Store</a>
+        <a href="../BookMark.html">BookMark</a>
+        <a href="../event.html">Event</a>
+        <a href="../Gallery.html">Gallery</a>
+        <a href="../Minigame.html">Mini Game</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Main ===== -->
+  <main class="figure-container">
+    <section class="figure-info-horizontal" id="productRoot" hidden>
+      <div class="figure-left">
+        <img id="pImgMain" class="clickable-image" alt="Product Image" />
+      </div>
+
+      <div class="figure-right">
+        <h2 id="pName"></h2>
+        <p><strong>Price:</strong> <span id="pPrice"></span></p>
+        <p><strong>Delivery Fee:</strong> <span id="pDelivery"></span></p>
+
+        <div class="quantity-box">
+          <label for="quantity-input" class="visually-hidden">Quantity</label>
+          <input id="quantity-input" type="number" min="1" value="1" />
+          <span id="totalText">Total</span>
+        </div>
+
+        <div class="button-group">
+          <!-- 즐겨찾기 -->
+          <button id="favBtn" class="heart-btn" type="button" aria-label="Like" aria-pressed="false">♡</button>
+
+          <!-- 장바구니: 공용 basketIn.html (대문자 I) -->
+          <form id="basketForm" action="basketIn.html" method="get">
+            <input type="hidden" name="id" value="" />
+            <input type="hidden" name="qty" value="1" />
+            <button type="submit" class="basket-btn">Add to Basket</button>
+          </form>
+
+          <!-- 즉시구매 -->
+          <button id="buyNow" class="buy-btn">Buy Now</button>
+
+          <!-- 쿠폰 -->
+          <div class="coupon-box">
+            <label for="couponSelect"><strong>Coupon:</strong></label>
+            <select id="couponSelect">
+              <option value="">-- No coupon --</option>
+            </select>
+            <div id="couponHint" class="coupon-hint"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-type-image">
+        <img id="pImgSub" class="clickable-image" alt="Sub Image" />
+      </div>
+    </section>
+
+    <p id="pDesc" class="figure-description"></p>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo" class="footer-logo">
+      <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+  </footer>
+
+  <!-- ===== Script: 데이터 로드 & 동작 ===== -->
+  <script>
+    const fmtKRW = n => new Intl.NumberFormat('ko-KR').format(n) + '원';
+    const fmt = (n, c='KRW') =>
+      c === 'KRW' ? fmtKRW(n)
+                  : new Intl.NumberFormat('en-US', { style: 'currency', currency: c }).format(n);
+
+    // 설명 없을 때 채워주는 기본 텍스트(필요시 여기만 추가)
+    const descFallback = {
+      "4":  "Cuty Moltiz Maltiz Warm Blanket.",
+      "25": "Moltiz random figures consist of a total of 6 types. (V1)",
+      "26": "Moltiz random figures consist of a total of 6 types. (V2)",
+      "29": "Moltiz KeyRing Decorate your Bag!",
+      "30": "Maltiz KeyRing Decorate your Bag!",
+      "31": "Cuty Moltiz Memo Paper!",
+      "32": "Moltiz Maltiz MousePad!.",
+      "33": "Moltiz Maltiz Cuty Bag(ECO Bag).",
+      "44": "Moltiz Logistic Decorate your carrier!",
+      "45": "Maltiz Logistic Decorate your carrier!",
+      "54": "Cuty Moltiz Maltiz Warm Blanket(Sale).",
+      "55": "Maltiz Logistic Decorate your carrier!(Sale)",
+      "56": "Moltiz Maltiz Cuty Bag(ECO Bag Sale).",
+      "57":  "Moltiz Logistic Decorate your carrier!(Sale).",
+      "58":  "Moltiz Maltiz Diary Good writing please!",
+      "69":  "Maltiz Airplane Logistic Decorate your carrier!(Sale).",
+      "70":  "Moltiz Airplane Logistic Decorate your carrier!(Sale)."
+    };
+
+    const id = new URLSearchParams(location.search).get('id');
+
+    (async () => {
+      if (!id) { document.body.innerHTML = '상품 ID가 없어요.'; return; }
+
+      const res = await fetch(`/api/products/${encodeURIComponent(id)}`);
+      if (!res.ok) { document.body.innerHTML = '상품을 불러오지 못했어요.'; return; }
+      const p = await res.json();
+
+      const currency   = p.currency || 'KRW';
+      const deliveryFee = Number(p.deliveryFee || 0);
+
+      // 이미지/텍스트
+      document.getElementById('pName').textContent = p.name;
+
+      const priceEl = document.getElementById('pPrice');
+      if (p.isOnSale && p.originalPrice && p.originalPrice > p.price) {
+        priceEl.innerHTML = `<s>${fmt(p.originalPrice, currency)}</s> ${fmt(p.price, currency)}`;
+      } else {
+        priceEl.textContent = fmt(p.price, currency);
+      }
+
+      document.getElementById('pDelivery').textContent =
+        deliveryFee === 0 ? 'Free' : fmt(deliveryFee, currency);
+
+      document.getElementById('pImgMain').src = p.image;
+      document.getElementById('pImgSub').src  = p.image;
+
+      // 설명: DB값 없으면 fallback → 마지막으로 이름
+      const description = (p.description ?? '').trim() || descFallback[String(p.id)] || p.name;
+      document.getElementById('pDesc').textContent = description;
+
+      // 타이틀/메타
+      const titleText = `${p.name} - Moltiz! Maltiz!`;
+      document.title = titleText;
+      const tEl = document.getElementById('docTitle');
+      if (tEl) tEl.textContent = titleText;
+      document.getElementById('metaDesc').setAttribute('content', description);
+
+      // 수량/합계
+      const q = document.getElementById('quantity-input');
+      const total = document.getElementById('totalText');
+      function updateTotal() {
+        const n = Math.max(1, parseInt(q.value) || 1);
+        total.textContent = 'Total ' + fmt(p.price * n + deliveryFee, currency);
+        document.querySelector('#basketForm [name=qty]').value = n;
+      }
+      q.addEventListener('input', updateTotal);
+      updateTotal();
+
+      // 장바구니 폼 id
+      document.querySelector('#basketForm [name=id]').value = p.id;
+
+      // 즐겨찾기 토글 + BookMark.js 호환 data-*
+      const favBtn = document.getElementById('favBtn');
+      const favKey = 'fav:' + p.id;
+      const likedInit = localStorage.getItem(favKey) === '1';
+      favBtn.setAttribute('aria-pressed', likedInit ? 'true' : 'false');
+      favBtn.classList.toggle('liked', likedInit);
+      favBtn.dataset.id = 'p-' + p.id;
+      favBtn.dataset.name = p.name;
+      favBtn.dataset.price = String(p.price);
+      favBtn.dataset.image = p.image;
+      favBtn.dataset.url = location.pathname + '?id=' + encodeURIComponent(p.id);
+      favBtn.addEventListener('click', () => {
+        const next = favBtn.getAttribute('aria-pressed') !== 'true';
+        favBtn.setAttribute('aria-pressed', next ? 'true' : 'false');
+        favBtn.classList.toggle('liked', next);
+        localStorage.setItem(favKey, next ? '1' : '0');
+      });
+
+      // 이미지 클릭 확대(오버레이)
+      document.querySelectorAll('.clickable-image').forEach(img => {
+        img.addEventListener('click', () => {
+          const overlay = document.createElement('div');
+          overlay.className = 'image-overlay';
+          const large = document.createElement('img');
+          large.src = img.src;
+          overlay.appendChild(large);
+          const close = () => overlay.remove();
+          overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+          document.addEventListener('keydown', function onEsc(e){
+            if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onEsc); }
+          });
+          document.body.appendChild(overlay);
+        });
+      });
+
+      // buy.js/pay.js 전역
+      window.PRODUCT_ID = p.id;
+      window.PRODUCT_NAME = p.name;
+      window.PRODUCT_PRICE = p.price;
+      window.PRODUCT_IMAGE = p.image;
+
+      // 표시
+      document.getElementById('productRoot').hidden = false;
+    })();
+  </script>
+
+  <!-- 외부 스크립트 -->
+  <script src="../search.js" defer></script>
+  <script src="../script.js"></script>
+  <script src="../BookMark.js"></script>
+  <script src="../coupon.js"></script>
+  <script src="../buy.js"></script>
+  <script src="../pay.js"></script>
+
+  <!-- Confirm Modal -->
+  <div id="confirmOverlay" class="confirm-overlay hidden">
+    <div class="confirm-modal">
+      <h3 id="confirmTitle">Are you sure you want to buy it?</h3>
+      <div class="confirm-actions">
+        <button id="confirmYes" class="btn-primary">Yes</button>
+        <button id="confirmNo"  class="btn-secondary">No</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
