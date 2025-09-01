@@ -81,6 +81,9 @@
     const id  = qs.get('id');
     const qty = Math.max(1, parseInt(qs.get('qty') || '1'));
 
+    // ★ 무료배송 기준
+    const FREE_SHIP_THRESHOLD = 20000;
+
     (async () => {
       if (!id) { document.body.innerHTML = '상품 ID가 없어요.'; return; }
 
@@ -90,27 +93,36 @@
 
       const currency   = p.currency || 'KRW';
       const unitPrice  = Number(p.price);
-      const delivery   = Number(p.deliveryFee || 0);
+      const deliveryBase = Number(p.deliveryFee || 0);
 
       // 상세 카드 채우기
       document.getElementById('itemImg').src = p.image;
       document.getElementById('itemImg').alt = p.name;
       document.getElementById('itemName').textContent = p.name;
       document.getElementById('unitPrice').textContent = fmt(unitPrice, currency);
-      document.getElementById('delivery').textContent  = delivery === 0 ? 'Free' : fmt(delivery, currency);
 
-      // 요약 채우기
-      document.getElementById('quantity-input').value = qty;
+      // 렌더링 함수
       function renderTotals(n) {
         const productTotal = unitPrice * n;
+
+        // ★ 조건: 합계가 20,000 이상이면 배송비 무료
+        const delivery = productTotal >= FREE_SHIP_THRESHOLD ? 0 : deliveryBase;
+
         const finalTotal = productTotal + delivery;
-        document.getElementById('price-value').textContent   = fmt(productTotal, currency);
-        document.getElementById('delivery-fee').textContent  = delivery === 0 ? 'Free' : fmt(delivery, currency);
-        document.getElementById('total-price').textContent   = `Total ${fmt(finalTotal, currency)}`;
-        document.getElementById('total-fee').textContent     = fmt(finalTotal, currency);
-        document.getElementById('summary-final').textContent = fmt(finalTotal, currency);
+
+        document.getElementById('delivery').textContent     = delivery === 0 ? 'Free' : fmt(delivery, currency);
+        document.getElementById('price-value').textContent  = fmt(productTotal, currency);
+        document.getElementById('delivery-fee').textContent = delivery === 0 ? 'Free' : fmt(delivery, currency);
+        document.getElementById('total-price').textContent  = `Total ${fmt(finalTotal, currency)}`;
+        document.getElementById('total-fee').textContent    = fmt(finalTotal, currency);
+        document.getElementById('summary-final').textContent= fmt(finalTotal, currency);
       }
+
+      // 초기 표시
+      document.getElementById('quantity-input').value = qty;
       renderTotals(qty);
+
+      // 수량 변경 이벤트
       document.getElementById('quantity-input').addEventListener('input', (e) => {
         const n = Math.max(1, parseInt(e.target.value) || 1);
         renderTotals(n);
@@ -159,5 +171,6 @@
   </div>
 </body>
 </html>
+
 
 

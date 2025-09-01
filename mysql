@@ -7,7 +7,13 @@
 Navigator → Management → Data Export → 
 스키마/테이블 선택 → Export to Self-Contained File → Start Export. 
 
-*My sql다운받기
+해당 파일을 git database db파일에 집어넣고 해당 수정 파일을 schema.sql에 붙여넣고 
+터미널에서
+mysql -h 127.0.0.1 -P 3306 -u moltiz -p0715 moltiz < db/schema.sql 먼저하고 
+mysql -h 127.0.0.1 -P 3306 -u moltiz -p moltiz 비번 누르고 접속하고 
+use moltiz; 를 하면 Database 가 바뀌었다는 알림과 함께 moltiz mysql이 업데이트가 된다.
+
+*1. My sql다운받기
 GitHub Codespaces (클라우드)
 
 sudo apt-get update
@@ -20,7 +26,7 @@ mysql -h 127.0.0.1 -P 3306 -u moltiz -p0715 moltiz < db/schema.sql
 
 * 터미널에서 sql들어가기 sudo mysql → 비밀번호 안 물어보고 바로 들어갈 수 있습니다.
  
-**mysql -h 127.0.0.1 -P 3306 -u moltiz -p moltiz (USE Moltiz로 바로 접속)
+**2. mysql -h 127.0.0.1 -P 3306 -u moltiz -p moltiz (USE Moltiz로 바로 접속)
 
 * 터미널에서 -u moltiz -p moltiz 비번 0715로 설정
   mysql -h 127.0.0.1 -P 3306 --user=moltiz --password=0715 moltiz 복붙

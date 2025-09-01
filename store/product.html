@@ -144,6 +144,9 @@
       "70":  "Moltiz Airplane Logistic Decorate your carrier!(Sale)."
     };
 
+    // 무료배송 기준(가격 >= 이 금액이면 배송비 0)
+    const FREE_SHIP_THRESHOLD = 20000;
+
     const id = new URLSearchParams(location.search).get('id');
 
     (async () => {
@@ -153,8 +156,7 @@
       if (!res.ok) { document.body.innerHTML = '상품을 불러오지 못했어요.'; return; }
       const p = await res.json();
 
-      const currency   = p.currency || 'KRW';
-      const deliveryFee = Number(p.deliveryFee || 0);
+      const currency    = p.currency || 'KRW';
 
       // 이미지/텍스트
       document.getElementById('pName').textContent = p.name;
@@ -166,8 +168,14 @@
         priceEl.textContent = fmt(p.price, currency);
       }
 
+      // ===== 배송비 계산 (가격 2만원 이상 무료) =====
+      const deliveryFeeBase = Number(p.deliveryFee || 0);
+      const isFreeByPrice   = Number(p.price) >= FREE_SHIP_THRESHOLD; // 세일가 기준
+      const deliveryFee     = isFreeByPrice ? 0 : deliveryFeeBase;
+
       document.getElementById('pDelivery').textContent =
         deliveryFee === 0 ? 'Free' : fmt(deliveryFee, currency);
+      // ===== 끝 =====
 
       document.getElementById('pImgMain').src = p.image;
       document.getElementById('pImgSub').src  = p.image;
