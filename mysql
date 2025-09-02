@@ -78,6 +78,8 @@ WHERE user_id IN (1,10);
 
 SET SQL_SAFE_UPDATES = 1;
 
+
+
 USE moltiz;
 SET SQL_SAFE_UPDATES = 0;
 -- 멤버쉽 초기화

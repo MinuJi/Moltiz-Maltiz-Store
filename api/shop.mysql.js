@@ -22,6 +22,8 @@ function decideLevel(krw) {
 
 // 배송비(원)
 const BASE_SHIPPING_FEE = 1000;
+// ✅ 합계 기준 무료배송 임계값(프론트와 동일)
+const FREE_SHIP_THRESHOLD = 20000;
 
 /* 장바구니 합계(트랜잭션 내, 재고잠금) */
 async function computeCartSubtotal(conn, userId) {
@@ -40,9 +42,8 @@ async function computeCartSubtotal(conn, userId) {
 
   const subtotal = items.reduce((sum, it) => sum + (it.price * it.quantity), 0);
 
-  // 규칙: 담긴 모든 상품이 무료배송이면 0원, 아니면 1,000원
-  const allFree = items.every(it => Number(it.shipping_fee ?? BASE_SHIPPING_FEE) === 0);
-  const shippingFee = allFree ? 0 : BASE_SHIPPING_FEE;
+  // ✅ 변경 후 정책: 장바구니 합계가 임계값 이상이면 무료, 아니면 고정 배송비
+  const shippingFee = subtotal >= FREE_SHIP_THRESHOLD ? 0 : BASE_SHIPPING_FEE;
 
   return { items, subtotal, shippingFee };
 }
@@ -179,10 +180,10 @@ router.post('/checkout/preview', requireLogin, async (req, res) => {
   try {
     await conn.beginTransaction();
 
-    const { subtotal, shippingFee: baseShippingFee } = await computeCartSubtotal(conn, userId);
+    const { subtotal, shippingFee: shippingFeeBase } = await computeCartSubtotal(conn, userId);
 
     // 기본은 장바구니 기준 배송비
-    let shippingFee = baseShippingFee;
+    let shippingFee = shippingFeeBase;
     let discount = 0;
     let applied = null;
 
@@ -218,10 +219,10 @@ router.post('/checkout', requireLogin, async (req, res) => {
     await conn.beginTransaction();
 
     // 1) 합계
-    const { items, subtotal, shippingFee: baseShippingFee } = await computeCartSubtotal(conn, userId);
+    const { items, subtotal, shippingFee: shippingFeeBase } = await computeCartSubtotal(conn, userId);
 
     // 2) 쿠폰 적용
-    let shippingFee = baseShippingFee;
+    let shippingFee = shippingFeeBase;
     let discount = 0;
     let usedUserCouponId = null;
     let applied = null;
@@ -303,15 +304,19 @@ router.post('/checkout/direct', requireLogin, async (req, res) => {
     );
     const map = new Map(prods.map(p => [p.id, p]));
 
-    let total = 0;
+    let subtotal = 0;
     for (const it of items) {
       const p = map.get(it.productId);
       if (!p) throw new Error('PRODUCT_NOT_FOUND');
       const qty = Number(it.quantity);
       if (!Number.isInteger(qty) || qty < 1) throw new Error('INVALID_QTY');
       if (qty > p.stock) throw new Error('OUT_OF_STOCK');
-      total += p.price * qty;
+      subtotal += p.price * qty;
     }
+
+    // ✅ 합계 기준 무료배송 동일 적용
+    const shippingFee = subtotal >= FREE_SHIP_THRESHOLD ? 0 : BASE_SHIPPING_FEE;
+    const total = subtotal + shippingFee;
 
     const [orderRes] = await conn.query(
       'INSERT INTO orders (user_id, status, total_price) VALUES (?, "CREATED", ?)',
@@ -329,7 +334,7 @@ router.post('/checkout/direct', requireLogin, async (req, res) => {
     }
 
     await conn.commit();
-    res.json({ ok:true, orderId, total });
+    res.json({ ok:true, orderId, subtotal, shippingFee, total });
   } catch (e) {
     await conn.rollback();
     res.status(400).json({ ok:false, error:e.message });
@@ -515,8 +520,6 @@ router.get('/coupons/me', requireLogin, async (req, res) => {
   }
 });
 
-
-
 /* ======================== 10) 멤버십/쿠폰 재동기화(정리만, 재발급 없음) ======================== */
 router.post('/membership/resync', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
@@ -559,4 +562,5 @@ router.post('/membership/resync', requireLogin, async (req, res) => {
 });
 
 module.exports = router;
+
 

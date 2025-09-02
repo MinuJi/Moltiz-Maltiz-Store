@@ -20,7 +20,7 @@
           </a>
         </div>
         <form class="search-bar" action="../search.html" method="get" role="search">
-          <label class="sr-only" for="q">Search</label>
+          <label class="sr-only" for="q"></label>
           <input id="q" name="q" type="text" placeholder="Please search for it" />
           <button class="search-btn" type="submit" aria-label="Search">
             <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon" />
@@ -95,6 +95,28 @@
             <div id="couponHint" class="coupon-hint"></div>
           </div>
         </div>
+        <!-- === Moltiz! Maltiz! Ask AI (Q&A) === -->
+        <div class="ai-card" id="aiCard">
+          <div class="ai-header">
+            <div class="ai-badge">AI</div>
+            <div class="ai-title">Moltiz! Maltiz! Ask AI</div>
+            <div class="ai-sub">빠른 답변 · 배송/쿠폰/재고</div>
+          </div>
+
+          <div class="ai-input-wrap">
+            <textarea id="aiQuestion" class="ai-textarea"
+              placeholder="예) 배송비 얼마예요? 쿠폰 적용돼요? 재고 남았나요?"></textarea>
+            <button id="aiAskBtn" class="ai-ask-btn" type="button">Moltiz! Maltiz! Ask AI</button>
+          </div>
+
+          <div class="ai-row-meta">
+            <div>수량 <span id="aiQtyEcho">1</span>개 기준으로 답합니다.</div>
+            <div class="ai-count"><span id="aiCount">0</span>/120</div>
+          </div>
+
+          <div id="aiAnswer" class="ai-answer"></div>
+          <div class="ai-hint">※ 실제 정책/보유쿠폰/가격 정보를 바탕으로 간단히 안내합니다.</div>
+        </div>
       </div>
 
       <div class="figure-type-image">
@@ -123,7 +145,7 @@
       c === 'KRW' ? fmtKRW(n)
                   : new Intl.NumberFormat('en-US', { style: 'currency', currency: c }).format(n);
 
-    // 설명 없을 때 채워주는 기본 텍스트(필요시 여기만 추가)
+    // 설명 없을 때 채워주는 기본 텍스트
     const descFallback = {
       "4":  "Cuty Moltiz Maltiz Warm Blanket.",
       "25": "Moltiz random figures consist of a total of 6 types. (V1)",
@@ -138,13 +160,28 @@
       "54": "Cuty Moltiz Maltiz Warm Blanket(Sale).",
       "55": "Maltiz Logistic Decorate your carrier!(Sale)",
       "56": "Moltiz Maltiz Cuty Bag(ECO Bag Sale).",
-      "57":  "Moltiz Logistic Decorate your carrier!(Sale).",
-      "58":  "Moltiz Maltiz Diary Good writing please!",
-      "69":  "Maltiz Airplane Logistic Decorate your carrier!(Sale).",
-      "70":  "Moltiz Airplane Logistic Decorate your carrier!(Sale)."
+      "57": "Moltiz Logistic Decorate your carrier!(Sale).",
+      "58": "Moltiz Maltiz Diary Good writing please!",
+      "69": "Maltiz Airplane Logistic Decorate your carrier!(Sale).",
+      "70": "Moltiz Airplane Logistic Decorate your carrier!(Sale).",
+      "82": "Maltiz Washing Band — comfy band for wash time!",
+      "83": "Moltiz Makarong Ring — decorate your phone with a cute macaron ring!",
+      "84": "Maltiz Makarong Ring — cute macaron ring grip for your phone!",
+      "85": "Moltiz Ready to Sleep — cozy set for sweet dreams!",
+      "86": "Maltiz Ready to Sleep — good night with Maltiz!",
+      "87": "Moltiz Original — the classic Moltiz look!",
+      "88": "Maltiz Original — the classic Maltiz style!",
+      "89": "Moltiz Neck Pillow — soft and cozy for travel naps!",
+      "90": "Maltiz Neck Pillow — comfy neck support for trips!",
+      "91": "Maltiz Sweet Blanket — sweet and warm blanket!",
+      "92": "Moltiz DonutBag — cute donut-shaped bag for daily use!",
+      "93": "Moltiz Note P — cute note pad for quick memos!",
+      "94": "Maltiz Note H — handy note pad for everyday notes!",
+      "95": "Maltiz HartBag — heart-shaped bag, so cuty!",
+      "96": "Moltiz Pouch — handy multi-use pouch!"
     };
 
-    // 무료배송 기준(가격 >= 이 금액이면 배송비 0)
+    // 무료배송 기준(가격 >= 이 금액이면 배송비 0) — 서버와 통일
     const FREE_SHIP_THRESHOLD = 20000;
 
     const id = new URLSearchParams(location.search).get('id');
@@ -156,7 +193,7 @@
       if (!res.ok) { document.body.innerHTML = '상품을 불러오지 못했어요.'; return; }
       const p = await res.json();
 
-      const currency    = p.currency || 'KRW';
+      const currency = p.currency || 'KRW';
 
       // 이미지/텍스트
       document.getElementById('pName').textContent = p.name;
@@ -168,14 +205,13 @@
         priceEl.textContent = fmt(p.price, currency);
       }
 
-      // ===== 배송비 계산 (가격 2만원 이상 무료) =====
+      // 배송비: 합계 2만원 이상 무료
       const deliveryFeeBase = Number(p.deliveryFee || 0);
       const isFreeByPrice   = Number(p.price) >= FREE_SHIP_THRESHOLD; // 세일가 기준
       const deliveryFee     = isFreeByPrice ? 0 : deliveryFeeBase;
 
       document.getElementById('pDelivery').textContent =
         deliveryFee === 0 ? 'Free' : fmt(deliveryFee, currency);
-      // ===== 끝 =====
 
       document.getElementById('pImgMain').src = p.image;
       document.getElementById('pImgSub').src  = p.image;
@@ -259,6 +295,68 @@
   <script src="../buy.js"></script>
   <script src="../pay.js"></script>
 
+  <!-- Moltiz! Maltiz! Ask AI 동작 스크립트 -->
+  <script>
+    (function attachAskAI(){
+      const $qInput   = document.getElementById('quantity-input');
+      const $echo     = document.getElementById('aiQtyEcho');
+      const $qna      = document.getElementById('aiQuestion');
+      const $btn      = document.getElementById('aiAskBtn');
+      const $ans      = document.getElementById('aiAnswer');
+      const $count    = document.getElementById('aiCount');
+
+      if (!$qInput || !$qna || !$btn || !$ans) return;
+      const productId = () => window.PRODUCT_ID;
+
+      // 글자수 카운터
+      const MAX = 120;
+      const updateCount = () => {
+        const len = ($qna.value || '').trim().length;
+        $count.textContent = len;
+        $count.style.color = len > MAX ? '#c0392b' : '';
+      };
+      $qna.addEventListener('input', updateCount);
+      updateCount();
+
+      // 수량 에코
+      const syncQty = () => { $echo.textContent = Math.max(1, parseInt($qInput.value) || 1); };
+      $qInput.addEventListener('input', syncQty);
+      syncQty();
+
+      const showLoading = () => {
+        $ans.style.display = 'block';
+        $ans.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span> 답변 생성 중...';
+      };
+
+      $btn.addEventListener('click', async () => {
+        const question = ($qna.value || '').trim();
+        if (!question) { alert('질문을 입력해주세요. 예) 배송비 얼마예요?'); $qna.focus(); return; }
+        if (question.length > MAX) { alert('질문은 120자 이내로 작성해주세요.'); return; }
+
+        const qty = Math.max(1, parseInt($qInput.value) || 1);
+
+        try {
+          $btn.disabled = true; showLoading();
+          const resp = await fetch('/api/ai/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ productId: productId(), question, qty })
+          });
+          const data = await resp.json().catch(()=>({}));
+          if (!resp.ok || !data.ok) throw new Error(data?.error || 'ASK_FAILED');
+          $ans.style.display = 'block';
+          $ans.textContent = data.answer || '답변을 불러오지 못했어요.';
+        } catch (e) {
+          $ans.style.display = 'block';
+          $ans.textContent = '잠시 후 다시 시도해주세요. (' + (e.message || 'error') + ')';
+        } finally {
+          $btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+
   <!-- Confirm Modal -->
   <div id="confirmOverlay" class="confirm-overlay hidden">
     <div class="confirm-modal">
@@ -271,4 +369,5 @@
   </div>
 </body>
 </html>
+
 

@@ -43,6 +43,31 @@
 
               <span id="total-price">Total</span>
             </div>
+
+            <!-- === Moltiz! Maltiz! Ask AI (Q&A) 박스 === -->
+            <div class="ai-card" id="aiCard">
+              <div class="ai-header">
+                <div class="ai-badge">AI</div>
+                <div class="ai-title">Moltiz! Maltiz! Ask AI</div>
+                <div class="ai-sub">총액/배송/쿠폰 한눈에</div>
+              </div>
+
+              <div class="ai-input-wrap">
+                <textarea id="aiQuestion" class="ai-textarea"
+                  placeholder="예) 쿠폰 적용하면 총 얼마예요? 2개 사면 배송비 무료인가요?"></textarea>
+                <button id="aiAskBtn" class="ai-ask-btn" type="button">Moltiz! Maltiz! Ask AI</button>
+              </div>
+
+              <div class="ai-row-meta">
+                <div>수량 <span id="aiQtyEcho">1</span>개 기준으로 답합니다.</div>
+                <div class="ai-count"><span id="aiCount">0</span>/120</div>
+              </div>
+
+              <div id="aiAnswer" class="ai-answer"></div>
+              <div class="ai-hint">※ 서버의 실제 가격/배송정책(2만원 이상 무료)/보유 쿠폰을 바탕으로 간단히 답해요.</div>
+            </div>
+            <!-- === /Ask AI === -->
+
           </div>
         </div>
 
@@ -81,7 +106,7 @@
     const id  = qs.get('id');
     const qty = Math.max(1, parseInt(qs.get('qty') || '1'));
 
-    // ★ 무료배송 기준
+    // ★ 무료배송 기준(서버와 통일)
     const FREE_SHIP_THRESHOLD = 20000;
 
     (async () => {
@@ -126,6 +151,9 @@
       document.getElementById('quantity-input').addEventListener('input', (e) => {
         const n = Math.max(1, parseInt(e.target.value) || 1);
         renderTotals(n);
+        // AI 수량 에코도 갱신
+        const echo = document.getElementById('aiQtyEcho');
+        if (echo) echo.textContent = n;
       });
 
       // buy.js/pay.js 전역
@@ -136,6 +164,10 @@
 
       // 화면 보이기
       document.getElementById('root').hidden = false;
+
+      // 수량 에코 초기값
+      const echo = document.getElementById('aiQtyEcho');
+      if (echo) echo.textContent = Math.max(1, parseInt(document.getElementById('quantity-input').value) || 1);
     })();
 
     // 삭제 모달 동작
@@ -159,6 +191,76 @@
   <script src="../buy.js"></script>
   <script src="../pay.js"></script>
 
+  <!-- Moltiz! Maltiz! Ask AI 동작 스크립트 -->
+  <script>
+    (function attachAskAI(){
+      const $qInput   = document.getElementById('quantity-input');
+      const $echo     = document.getElementById('aiQtyEcho');
+      const $qna      = document.getElementById('aiQuestion');
+      const $btn      = document.getElementById('aiAskBtn');
+      const $ans      = document.getElementById('aiAnswer');
+      const $count    = document.getElementById('aiCount');
+      const $couponSel= document.getElementById('couponSelect');
+
+      if (!$qInput || !$qna || !$btn || !$ans) return;
+      const productId = () => window.PRODUCT_ID;
+
+      // 글자수 카운터
+      const MAX = 120;
+      const updateCount = () => {
+        const len = ($qna.value || '').trim().length;
+        $count.textContent = len;
+        $count.style.color = len > MAX ? '#c0392b' : '';
+      };
+      $qna.addEventListener('input', updateCount);
+      updateCount();
+
+      // 수량 에코
+      const syncQty = () => { if ($echo) $echo.textContent = Math.max(1, parseInt($qInput.value) || 1); };
+      $qInput.addEventListener('input', syncQty);
+      syncQty();
+
+      const showLoading = () => {
+        $ans.style.display = 'block';
+        $ans.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span> 답변 생성 중...';
+      };
+
+      async function ask(){
+        const question = ($qna.value || '').trim();
+        if (!question) { alert('질문을 입력해주세요. 예) 쿠폰 적용하면 총 얼마예요?'); $qna.focus(); return; }
+        if (question.length > MAX) { alert('질문은 120자 이내로 작성해주세요.'); return; }
+
+        const qty = Math.max(1, parseInt($qInput.value) || 1);
+        const couponCode = ($couponSel?.value || '') || null;
+
+        try {
+          $btn.disabled = true; showLoading();
+          const resp = await fetch('/api/ai/ask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ productId: productId(), question, qty, couponCode })
+          });
+          const data = await resp.json().catch(()=>({}));
+          if (!resp.ok || !data.ok) throw new Error(data?.error || 'ASK_FAILED');
+
+          $ans.style.display = 'block';
+          $ans.textContent = data.answer || '답변을 불러오지 못했어요.';
+        } catch (e) {
+          $ans.style.display = 'block';
+          $ans.textContent = '잠시 후 다시 시도해주세요. (' + (e.message || 'error') + ')';
+        } finally {
+          $btn.disabled = false;
+        }
+      }
+
+      $btn.addEventListener('click', ask);
+      $qna.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); }
+      });
+    })();
+  </script>
+
   <!-- Confirm Modal (buy.js에서 사용) -->
   <div id="confirmOverlay" class="confirm-overlay hidden">
     <div class="confirm-modal">
@@ -171,6 +273,7 @@
   </div>
 </body>
 </html>
+
 
 
 

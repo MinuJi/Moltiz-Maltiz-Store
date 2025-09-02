@@ -1,167 +1,212 @@
-// search.js (폴더 나눔 대응: 루트 기준으로 보관 -> 현재 위치에 맞춰 변환)
+// search.js — AI 자동완성 드롭다운 (서버 핑 불필요)
+
+// ===== 0) 경로 헬퍼 (네 코드 유지/개선) =====
+function getProjectRootPath() {
+  const p = location.pathname;
+  const m = p.match(/^(.*?)(?:\/(?:store|sale)(?:\/|$).*)/);
+  if (m) return m[1].endsWith('/') ? m[1] : m[1] + '/';
+  return p.endsWith('/') ? p : p.replace(/\/[^/]*$/, '/');
+}
+function toRealUrl(rootRelativePath) {
+  const root = getProjectRootPath();
+  const clean = (rootRelativePath || '').replace(/^\/+/, '');
+  return (root + clean).replace(/\/{2,}/g, '/');
+}
+
+const fmtKRW = (n) => new Intl.NumberFormat('ko-KR').format(Number(n||0)) + '원';
+
+function h(tag, props={}, ...children){
+  const el = document.createElement(tag);
+  Object.entries(props).forEach(([k,v])=>{
+    if (k === 'class') el.className = v;
+    else if (k === 'dataset') Object.assign(el.dataset, v);
+    else if (k === 'style') Object.assign(el.style, v);
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v);
+  });
+  children.flat().forEach(ch => el.appendChild(typeof ch === 'string' ? document.createTextNode(ch) : ch));
+  return el;
+}
+
+function debounce(fn, ms=150){
+  let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), ms); };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // =============================
-  // 0) 경로 헬퍼
-  // =============================
+  // ===== 1) 검색 폼 요소 찾기 =====
+  const searchForms = document.querySelectorAll('form.search-bar');
+  if (!searchForms.length) return;
 
-  // 프로젝트 루트 경로 계산:
-  //   /repo-name/store/xxx  -> /repo-name/
-  //   /repo-name/sale/xxx   -> /repo-name/
-  //   /repo-name/           -> /repo-name/
-  //   /Home.html            -> /
-  function getProjectRootPath() {
-    const p = location.pathname;
-
-    // /.../(store|sale)(/|$) 이전까지 자름
-    const m = p.match(/^(.*?)(?:\/(?:store|sale)(?:\/|$).*)/);
-    if (m) {
-      return m[1].endsWith('/') ? m[1] : m[1] + '/';
-    }
-
-    // 이미 루트(= store/sale 밖). 파일이면 디렉토리로, 디렉토리면 그대로
-    return p.endsWith('/') ? p : p.replace(/\/[^/]*$/, '/');
-  }
-
-  // 루트 기준 경로(root-relative, e.g. "store/Blanket.html")를
-  // 현재 페이지에서 접근 가능한 실제 경로로 변환
-  function toRealUrl(rootRelativePath) {
-    const root = getProjectRootPath();
-    const clean = (rootRelativePath || '').replace(/^\/+/, ''); // 앞의 / 제거
-    return (root + clean).replace(/\/{2,}/g, '/');
-  }
-
-  // 문자열 정규화
-  const norm = s => (s || '').toString().trim().toLowerCase();
-
-  // 별칭 찾기 (부분 일치 허용)
-  function findByAliases(aliases, q) {
-    if (!q) return null;
-    const nq = norm(q);
-    for (const item of aliases) {
-      for (const a of item.names) {
-        const na = norm(a);
-        if (!na) continue;
-        if (na.includes(nq) || nq.includes(na)) return item.url; // url은 "루트 기준"으로
-      }
-    }
-    return null;
-  }
-
-  // =============================
-  // 1) 카테고리/메뉴 매핑 (루트 기준)
-  // =============================
-  const CATEGORY_ALIASES = [
-    { url: 'Home.html',     names: ['home','홈','메인'] },
-    { url: 'store.html',    names: ['all category','all','전체','카테고리','상품','스토어','store','shop','상점'] },
-    { url: 'sale.html',     names: ['sale','세일','할인'] },
-    { url: 'best.html',     names: ['best','베스트','인기'] },
-    { url: 'event.html',    names: ['event','이벤트'] },
-    { url: 'Gallery.html',  names: ['gallery','갤러리'] },
-    { url: 'Minigame.html', names: ['mini game','minigame','게임'] },
-    { url: 'service.html',  names: ['고객센터','cs','문의','service','customer service'] },
-    // What/what 둘 중 하나만 존재해도 동작하도록 별칭만 둠
-    { url: 'What.html',     names: ['what','what is moltiz','소개','몰티즈','moltiz','about'] },
-  ];
-
-  // =============================
-  // 2) 상품 페이지 매핑 (루트 기준)
-  //    - store/ 와 sale/ 아래 실제 파일명 기준
-  // =============================
-  const PRODUCT_ALIASES = [
-    // 담요
-    { url: 'store/Blanket.html',        names: ['blanket','담요','moltiz blanket','이불'] },
-
-    // 가방
-    { url: 'store/MolBag.html',         names: ['bag','가방','토트','몰티즈 가방','moltiz bag'] },
-
-    // 키링 (Mol / Mal 둘 다)
-    { url: 'store/MolKey.html',         names: ['keyring','키링','몰티즈 키링','moltiz keyring','key ring','mol key'] },
-    { url: 'store/MalKey.html',         names: ['maltiz keyring','말티즈 키링','maltiz key ring','mal key'] },
-
-    // 메모
-    { url: 'store/MolMemo.html',        names: ['memo','메모','포스트잇','post-it','moltiz memo'] },
-
-    // 마우스패드
-    { url: 'store/MousePad.html',       names: ['mousepad','마우스패드','mouse pad','moltiz mousepad'] },
-
-    // 러기지(네임택)
-    { url: 'store/LogisticMol.html',    names: ['logistic','러기지','네임택','몰티즈 러기지','moltiz logistic','tag','mol logistic'] },
-    { url: 'store/LogisticMal.html',    names: ['maltiz logistic','말티즈 러기지','name tag','mal logistic'] },
-
-    // 랜덤 피규어
-    { url: 'store/FigureFirst.html',    names: ['random figure1','figure1','랜덤 피규어1','랜덤피규어1'] },
-    { url: 'store/FigureSecond.html',   names: ['random figure2','figure2','랜덤 피규어2','랜덤피규어2'] },
-
-    // ===== 세일 전용 페이지(파일명 기준) =====
-    { url: 'sale/BagMolSale.html',      names: ['sale bag','세일 가방','할인가 가방'] },
-    { url: 'sale/BlanketBSale.html',    names: ['sale blanket','세일 담요','할인가 담요'] },
-    { url: 'sale/LogiticMalSale.html',  names: ['sale logistic mal','세일 러기지 말','네임택 세일 mal'] },
-    { url: 'sale/LogiticMolSale.html',  names: ['sale logistic mol','세일 러기지 몰','네임택 세일 mol'] },
-  ];
-
-  // 상세(서버 상품) 페이지가 있다면 사용 (루트 기준)
-  const PRODUCT_DETAIL_URL = 'product.html?id=%ID%';
-
-  // 폴백 목록 (루트 기준)
-  const FALLBACK_LIST_URL = 'store.html';
-
-  // =============================
-  // 3) 라우팅
-  // =============================
-  async function routeSearch(query) {
-    const q = (query || '').trim();
-    if (!q) return alert('Please enter a search term.');
-
-    // (1) 카테고리 우선
-    const catUrl = findByAliases(CATEGORY_ALIASES, q);
-    if (catUrl) {
-      location.href = toRealUrl(catUrl);
-      return;
-    }
-
-    // (2) 정적 상품 페이지
-    const productUrl = findByAliases(PRODUCT_ALIASES, q);
-    if (productUrl) {
-      location.href = toRealUrl(productUrl);
-      return;
-    }
-
-    // (3) 서버 검색 → 1개면 상세로
-    try {
-      const res = await fetch(`${toRealUrl('api/products')}?q=${encodeURIComponent(q)}&limit=5`, { credentials: 'include' });
-      const data = await res.json().catch(() => ({}));
-      if (data?.ok && Array.isArray(data.products) && data.products.length === 1) {
-        const id = data.products[0]?.id;
-        if (id && PRODUCT_DETAIL_URL.includes('%ID%')) {
-          location.href = toRealUrl(PRODUCT_DETAIL_URL.replace('%ID%', encodeURIComponent(id)));
-          return;
-        }
-      }
-    } catch (_) {
-      // 서버 검색 실패 시 폴백으로
-    }
-
-    // (4) 폴백: 목록 + 쿼리
-    const fallback = `${FALLBACK_LIST_URL}?q=${encodeURIComponent(q)}`;
-    location.href = toRealUrl(fallback);
-  }
-
-  // =============================
-  // 4) 폼 바인딩
-  // =============================
-  document.querySelectorAll('form.search-bar').forEach(form => {
-    const input  = form.querySelector('input[name="q"]');
+  // 폼마다 자동완성 박스 붙이기
+  searchForms.forEach((form) => {
+    const input  = form.querySelector('input[name="q"]') || form.querySelector('input');
     const button = form.querySelector('.search-btn');
+    if (!input) return;
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      routeSearch(input?.value || '');
+    // 제안 상자 생성 (스타일은 Mainstyle.css를 최대한 따르고, 최소한의 인라인만)
+    const box = h('div', {
+      id: 'aiSuggestBox',
+      class: 'ai-suggest',
+      style: {
+        position: 'absolute',
+        top: 'calc(100% + 8px)',
+        left: '0',
+        right: '0',
+        border: '1px solid #ddd',
+        borderRadius: '10px',
+        background: '#fff',
+        boxShadow: '0 8px 24px rgba(0,0,0,.08)',
+        overflow: 'hidden',
+        display: 'none',
+        maxHeight: '420px',
+        overflowY: 'auto',
+        zIndex: '9999',
+      }
     });
 
+    // 포지셔닝 컨테이너
+    const wrap = h('div', { style: { position: 'relative' }});
+    form.parentNode.insertBefore(wrap, form);
+    wrap.appendChild(form);
+    wrap.appendChild(box);
+
+    let items = [];
+    let activeIdx = -1;
+
+    function hideBox(){ box.style.display = 'none'; activeIdx = -1; }
+    function showBox(){ if (items.length) box.style.display = 'block'; }
+
+    function render(itemsList, queryText){
+      items = itemsList || [];
+      activeIdx = -1;
+      box.innerHTML = '';
+
+      if (!items.length) { hideBox(); return; }
+
+      items.forEach((it, i) => {
+        const row = h('div', {
+          class: 's-item',
+          style: {
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center',
+            padding: '10px 12px',
+            cursor: 'pointer'
+          },
+          onmouseenter: ()=>{ activeIdx = i; highlight(); },
+          onclick: ()=> goDetail(it.id),
+          role: 'option',
+          'aria-selected': 'false'
+        },
+          h('img', { class: 's-thumb', src: it.image || '', alt:'', style: {
+            width:'40px',height:'40px',borderRadius:'8px',objectFit:'cover',background:'#f2f2f2'
+          }}),
+          h('div', { class: 's-main' },
+            h('div', { class: 's-name', style:{fontSize:'14px',fontWeight:'600'} }, it.name),
+            h('div', { class: 's-price', style:{fontSize:'12px',color:'#666'} }, fmtKRW(it.price))
+          )
+        );
+        box.appendChild(row);
+      });
+
+      // 마지막에 “검색어로 전체 보기” 링크
+      const all = h('div', { class:'s-item', style:{padding:'10px 12px', borderTop:'1px solid #f1f1f1', cursor:'pointer'},
+        onclick: ()=> location.href = toRealUrl(`store.html?q=${encodeURIComponent(queryText||'')}`) },
+        h('div', { class:'s-main' },
+          h('div', { class:'s-name', style:{fontSize:'13px'} }, `‘${queryText}’ 전체보기`)
+        )
+      );
+      box.appendChild(all);
+
+      showBox();
+      highlight();
+    }
+
+    function highlight(){
+      [...box.children].forEach((el, idx)=>{
+        if (idx === activeIdx) {
+          el.style.background = '#f6fffe';
+        } else {
+          el.style.background = '#fff';
+        }
+      });
+    }
+
+    function goDetail(id){
+      if (!id) return;
+      // 네 사이트의 상세 URL 규칙: store/product.html?id=ID
+      location.href = toRealUrl(`store/product.html?id=${encodeURIComponent(id)}`);
+    }
+
+    async function fetchSuggest(q){
+      const url = toRealUrl(`api/ai/suggest?q=${encodeURIComponent(q)}`);
+      const res = await fetch(url, { credentials:'include' }).catch(()=>null);
+      if (!res || !res.ok) return [];
+      const data = await res.json().catch(()=>({}));
+      if (data && data.ok && Array.isArray(data.items)) return data.items;
+      return [];
+    }
+
+    const onInput = debounce(async () => {
+      const q = (input.value || '').trim();
+      if (!q) { hideBox(); return; }
+      try {
+        const list = await fetchSuggest(q);
+        render(list, q);
+      } catch {
+        hideBox();
+      }
+    }, 120);
+
+    input.addEventListener('input', onInput);
+    input.addEventListener('focus', onInput);
+
+    // 키보드 내비게이션
+    input.addEventListener('keydown', (e) => {
+      if (box.style.display === 'none') return;
+      const count = box.children.length; // + “전체보기” 포함
+      if (!count) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIdx = Math.min(activeIdx + 1, count - 2); // 마지막은 전체보기이니 -2까지 상품
+        highlight();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIdx = Math.max(activeIdx - 1, 0);
+        highlight();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeIdx >= 0 && activeIdx < items.length) {
+          goDetail(items[activeIdx].id);
+        } else {
+          // 선택 없으면 전체 보기
+          const q = (input.value || '').trim();
+          location.href = toRealUrl(`store.html?q=${encodeURIComponent(q)}`);
+        }
+      } else if (e.key === 'Escape') {
+        hideBox();
+      }
+    });
+
+    // 포커스 밖 클릭 시 닫기
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) hideBox();
+    });
+
+    // 폼 submit(버튼 클릭 포함): 기본은 전체 보기로 이동
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = (input.value || '').trim();
+      if (!q) return;
+      location.href = toRealUrl(`store.html?q=${encodeURIComponent(q)}`);
+    });
     if (button) {
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        routeSearch(input?.value || '');
+        const q = (input.value || '').trim();
+        if (!q) return;
+        location.href = toRealUrl(`store.html?q=${encodeURIComponent(q)}`);
       });
     }
   });
