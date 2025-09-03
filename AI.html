@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Moltiz! Maltiz! Ask AI</title>
+  <meta name="description" content="Moltiz! Maltiz! Ask AI - 실제 정책/쿠폰/배송 기준으로 빠르게 답변합니다.">
+
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="Mainstyle.css"/>
+  <!-- AI 전용 스타일 -->
+  <link rel="stylesheet" href="AIStyle.css"/>
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <div class="top-bar">
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <!-- 검색창 (시각적 라벨 제거) -->
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <nav class="user-menu" aria-label="User menu">
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+        <a href="AI.html">Moltiz AI Service</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Main ===== -->
+  <main class="ai-page">
+    <h2 style="margin-bottom:12px;">Moltiz! Maltiz! Ask AI</h2>
+
+    <div class="ai-card" role="form" aria-labelledby="ai-title">
+      <div class="ai-header">
+        <div class="ai-badge" aria-hidden="true">AI</div>
+        <div class="ai-title" id="ai-title">빠른 답변 · 배송/쿠폰/재고</div>
+        <div class="ai-sub">실제 정책과 보유 혜택을 반영해 답해요</div>
+      </div>
+
+      <!-- 선택된 상품 -->
+      <div id="selBox" class="ai-block" style="display:none;">
+        <div class="ai-label">선택한 상품</div>
+        <div class="ai-product">
+          <img id="selThumb" class="ai-p-thumb" alt="">
+          <div>
+            <div id="selName" class="ai-p-name"></div>
+            <div id="selSub"  class="ai-p-sub"></div>
+          </div>
+          <button id="clearSel" class="ai-clear" type="button" aria-label="선택 해제">변경</button>
+        </div>
+      </div>
+
+      <!-- 상품 검색/선택 -->
+      <div id="pickBox" class="ai-block">
+        <div class="ai-label">상품 선택</div>
+        <div class="ai-suggest">
+          <input id="prodSearch"
+                 class="ai-input"
+                 placeholder="상품명으로 검색 (예: Moltiz, Blanket,, ...)"
+                 aria-autocomplete="list"
+                 aria-expanded="false"
+                 aria-controls="sList"
+                 role="combobox" />
+          <div id="sList"
+               class="ai-suggest-list"
+               role="listbox"
+               style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- 수량 -->
+      <div class="ai-block">
+        <div class="ai-label">수량</div>
+        <div class="ai-row">
+          <input id="qty" type="number" class="ai-input" min="1" value="1" style="max-width:120px;" aria-label="수량 입력">
+          <div class="ai-meta">합계·배송비 계산에 반영됩니다.</div>
+        </div>
+      </div>
+
+      <!-- 질문 -->
+      <div class="ai-block">
+        <div class="ai-label">질문</div>
+        <textarea id="question"
+                  class="ai-textarea"
+                  maxlength="200"
+                  placeholder="예) 배송비 얼마예요? 쿠폰 적용돼요? 재고 남았나요?"
+                  aria-describedby="q-helper"></textarea>
+        <div class="ai-row-meta" id="q-helper">
+          <div>엔터로 줄바꿈, <strong>Ctrl+Enter</strong>로 전송</div>
+          <div class="ai-count"><span id="charCount">0</span>/200</div>
+        </div>
+      </div>
+
+      <!-- 실행 -->
+      <div class="ai-block ai-row" style="justify-content:flex-end;">
+        <button id="askBtn" class="ai-ask-btn" type="button" aria-label="질문 전송">Moltiz! Maltiz! Ask AI</button>
+      </div>
+
+      <!-- 상태/답변 -->
+      <div id="status" role="status" aria-live="polite" class="ai-answer" style="display:none;"></div>
+      <div id="answer" class="ai-answer" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png"
+           alt="Moltiz! Maltiz! Logo" class="footer-logo">
+      <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+  </footer>
+
+  <!-- 공통 스크립트 -->
+  <script src="search.js" defer></script>
+  <script src="script.js"></script>
+
+  <!-- Ask AI 로직 -->
+  <script>
+    const $ = sel => document.querySelector(sel);
+    const fmtKRW = n => (Number(n)||0).toLocaleString('ko-KR') + '원';
+
+    // Elements
+    const sList      = $('#sList');
+    const sInput     = $('#prodSearch');
+    const selBox     = $('#selBox');
+    const pickBox    = $('#pickBox');
+    const selThumb   = $('#selThumb');
+    const selName    = $('#selName');
+    const selSub     = $('#selSub');
+    const clearSel   = $('#clearSel');
+    const qtyEl      = $('#qty');
+    const qEl        = $('#question');
+    const askBtn     = $('#askBtn');
+    const statusBox  = $('#status');
+    const ansBox     = $('#answer');
+    const charCount  = $('#charCount');
+
+    let selected = null; // {id, name, price, image}
+    let suggestions = []; // 최근 자동완성 목록
+    let activeIndex = -1; // 키보드 선택 인덱스
+
+    // URL ?id=123 로 진입 시 선택 세팅
+    (async function initFromQuery(){
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) return;
+      try {
+        const r = await fetch('/api/products/' + encodeURIComponent(id));
+        if (!r.ok) return;
+        const p = await r.json();
+        setSelected({
+          id: String(p.id), name: p.name, price: Number(p.price), image: p.image
+        });
+      } catch {}
+    })();
+
+    // 선택 반영
+    function setSelected(p){
+      selected = p;
+      activeIndex = -1;
+      hideSuggest();
+      sInput.setAttribute('aria-expanded', 'false');
+
+      if (!p) {
+        selBox.style.display = 'none';
+        pickBox.style.display = '';
+        sInput.focus();
+        return;
+      }
+      selThumb.src = p.image || '';
+      selThumb.alt = p.name || '';
+      selName.textContent = p.name;
+      selSub.textContent  = '단가 ' + fmtKRW(p.price);
+      selBox.style.display = '';
+      pickBox.style.display = 'none';
+    }
+    clearSel.addEventListener('click', () => setSelected(null));
+
+    // 제안 렌더
+    function renderSuggest(items){
+      suggestions = items || [];
+      sList.innerHTML = suggestions.map((it, i) => `
+        <div class="ai-s-item"
+             role="option"
+             aria-selected="${i===activeIndex ? 'true' : 'false'}"
+             data-idx="${i}"
+             data-id="${it.id}"
+             data-name="${it.name}"
+             data-price="${it.price}"
+             data-image="${it.image || ''}">
+          <img class="ai-s-thumb" src="${it.image || ''}" alt="">
+          <div style="flex:1;">
+            <div class="ai-s-name">${it.name}</div>
+            <div class="ai-s-price">${fmtKRW(it.price)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      if (suggestions.length) {
+        sList.style.display = '';
+        sInput.setAttribute('aria-expanded', 'true');
+      } else {
+        hideSuggest();
+      }
+
+      // 마우스 선택
+      sList.querySelectorAll('.ai-s-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const i = Number(el.dataset.idx);
+          pick(i);
+        });
+      });
+    }
+
+    // 제안 숨기기
+    function hideSuggest() {
+      sList.style.display = 'none';
+      sList.innerHTML = '';
+      sInput.setAttribute('aria-expanded', 'false');
+    }
+
+    // 제안 선택
+    function pick(i){
+      const it = suggestions[i];
+      if (!it) return;
+      setSelected({
+        id: it.id, name: it.name, price: Number(it.price||0), image: it.image || ''
+      });
+      sInput.value = '';
+      hideSuggest();
+    }
+
+    // 키보드 내비
+    function moveActive(dir){
+      if (!suggestions.length) return;
+      if (activeIndex === -1) activeIndex = (dir > 0 ? 0 : suggestions.length - 1);
+      else activeIndex = (activeIndex + dir + suggestions.length) % suggestions.length;
+
+      // aria-selected 업데이트
+      sList.querySelectorAll('.ai-s-item').forEach((el, i) => {
+        el.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
+        el.classList.toggle('active', i === activeIndex);
+        if (i === activeIndex) el.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    // 입력/검색
+    let tmr = null;
+    sInput.addEventListener('input', () => {
+      const q = (sInput.value||'').trim();
+      activeIndex = -1;
+      if (tmr) clearTimeout(tmr);
+      if (!q) { hideSuggest(); return; }
+      tmr = setTimeout(async () => {
+        try {
+          const r = await fetch('/api/ai/suggest?q=' + encodeURIComponent(q), { credentials:'include' });
+          const j = await r.json().catch(()=>({}));
+          if (j?.ok) renderSuggest(j.items);
+        } catch { hideSuggest(); }
+      }, 160);
+    });
+
+    // 제안 포커스 밖 클릭 시 닫기
+    document.addEventListener('click', (e) => {
+      if (!sList.contains(e.target) && e.target !== sInput) {
+        setTimeout(hideSuggest, 100);
+      }
+    });
+
+    // 제안 키보드 조작
+    sInput.addEventListener('keydown', (e) => {
+      if (sList.style.display === 'none') return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(+1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+      else if (e.key === 'Enter')  { if (activeIndex >= 0) { e.preventDefault(); pick(activeIndex); } }
+      else if (e.key === 'Escape') { hideSuggest(); }
+    });
+
+    // 글자수 카운트
+    qEl.addEventListener('input', () => {
+      charCount.textContent = (qEl.value || '').length;
+    });
+
+    // Ctrl+Enter 전송
+    qEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        e.preventDefault();
+        askBtn.click();
+      }
+    });
+
+    function setStatus(text){
+      if (!text) { statusBox.style.display = 'none'; statusBox.textContent=''; return; }
+      statusBox.style.display = 'block';
+      statusBox.innerHTML = `<span class="ai-dots"><span></span><span></span><span></span></span> ${text}`;
+    }
+
+     // 질문 보내기 (상품 선택은 선택사항)
+    askBtn.addEventListener('click', async () => {
+    const question = (qEl.value || '').trim();
+    const qty = Math.max(1, parseInt(qtyEl.value) || 1);
+    if (!question) { alert('질문을 입력해주세요.'); qEl.focus(); return; }
+
+    ansBox.style.display='block';
+    ansBox.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span> 답변 생성 중...';
+    askBtn.disabled = true;
+
+    // ✅ 상품을 선택했을 때만 productId 포함
+    const payload = { question, qty };
+    if (selected?.id) payload.productId = selected.id;
+
+    try {
+      const r = await fetch('/api/ai/ask', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        credentials:'include',
+        body: JSON.stringify(payload)
+      });
+      const j = await r.json().catch(()=>({}));
+      if (!r.ok || j.ok === false) throw new Error(j?.error || 'ASK_FAILED');
+      ansBox.textContent = j.answer || '답변을 불러오지 못했어요.';
+    } catch(e) {
+      ansBox.textContent = '잠시 후 다시 시도해주세요. ('+(e.message||'error')+')';
+    } finally {
+      askBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

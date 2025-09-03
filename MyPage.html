@@ -14,7 +14,9 @@
   <!-- ===== Header ===== -->
   <header>
     <div class="header-container">
+      <!-- Top Bar -->
       <div class="top-bar">
+        <!-- 로고 + 홈 -->
         <div class="logo">
           <a href="Home.html" class="home-btn" aria-label="Go to Home">
             <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
@@ -22,6 +24,7 @@
           </a>
         </div>
 
+        <!-- 검색창 -->
         <form class="search-bar" action="search.html" method="get" role="search">
           <label class="sr-only" for="q"></label>
           <input id="q" name="q" type="text" placeholder="Please search for it" />
@@ -30,15 +33,21 @@
           </button>
         </form>
 
+        <!-- 유저 메뉴 (로그인 상태에 따라 스위칭) -->
         <nav class="user-menu" aria-label="User menu">
+          <!-- 비회원용 -->
           <span id="auth-guest">
             <a href="./Login.html">Login</a>
             <a href="./Join.html">Join</a>
           </span>
+
+          <!-- 회원용 (처음엔 숨김) -->
           <span id="auth-member" class="auth-member">
             <span id="welcome-name"></span>
             <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
           </span>
+
+          <!-- 항상 노출되는 메뉴 -->
           <a href="./MyPage.html">MyPage</a>
           <a href="./basket.html">Shopping Basket</a>
           <a href="./service.html">Customer Service</a>
@@ -56,6 +65,7 @@
         <a href="event.html">Event</a>
         <a href="Gallery.html">Gallery</a>
         <a href="Minigame.html">Mini Game</a>
+        <a href="AI.html">Moltiz AI Service</a>
       </nav>
     </div>
   </header>

@@ -1,0 +1,159 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f8f9fb;
+}
+
+/* ===== 서비스 제목 ===== */
+.service-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: rgb(22,124,241);
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* ===== 상단 이미지 묶음 ===== */
+.top-banner-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.top-banner-box {
+  display: flex;
+  border: 3px solid rgb(22,124,241);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 400px;
+  width: 100%;
+}
+
+.top-img {
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.top-img:hover {
+  transform: scale(1.03);
+}
+
+/* ===== 연락처 정보 ===== */
+.contact-info {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.contact-info p {
+  margin: 5px 0;
+}
+
+/* ===== FAQ 제목 ===== */
+.faq-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(22,124,241);
+  margin-bottom: 20px;
+}
+
+/* ===== FAQ 섹션 ===== */
+.faq-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+/* FAQ 좌우 이미지 */
+.faq-img {
+  width: 300px;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.faq-img:hover {
+  transform: scale(1.05);
+}
+
+/* FAQ 박스 */
+.faq-box {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background-color: white;
+  border: 2px solid rgb(22,124,241);
+  border-radius: 8px;
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 15px;
+  color: rgb(22,124,241);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.faq-item:hover {
+  background-color: rgba(22,124,241,0.1);
+  transform: translateX(5px);
+}
+
+/* ===== 푸터 ===== */
+footer {
+  text-align: center;
+  background: #f2f2f2;
+  padding: 20px 10px;
+  color: #555;
+  border-top: 2px solid rgb(22,124,241);
+  margin-top: 60px;
+}
+
+.footer-logo {
+  width: 40px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* FAQ 안 질문/답변 구조 */
+.faq-question {
+  width: 100%;
+  background-color: white;
+  border: 2px solid rgb(22,124,241);
+  border-radius: 8px;
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 15px;
+  color: rgb(22,124,241);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.faq-question:hover {
+  background-color: rgba(22,124,241,0.1);
+  transform: translateX(5px);
+}
+
+.faq-answer {
+  display: none;
+  background-color: #f2f8ff;
+  padding: 10px 16px;
+  margin-top: 5px;
+  border-left: 3px solid rgb(22,124,241);
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+

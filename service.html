@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoltizMaltiz - Customer Service</title>
+  <link rel="stylesheet" href="Mainstyle.css" />
+  <link rel="stylesheet" href="serviceStyle.css" />
+</head>
+<body>
+
+ <!-- ===== Header ===== -->
+  <header>
+    <div class="header-container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <!-- 로고 + 홈 -->
+        <div class="logo">
+          <a href="Home.html" class="home-btn" aria-label="Go to Home">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" alt="Moltiz! Maltiz! Logo"/>
+            <span class="brand-text">Moltiz! Maltiz!</span>
+          </a>
+        </div>
+
+        <!-- 검색창 -->
+        <form class="search-bar" action="search.html" method="get" role="search">
+          <label class="sr-only" for="q"></label>
+          <input id="q" name="q" type="text" placeholder="Please search for it" />
+          <button class="search-btn" type="submit" aria-label="Search">
+            <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/c11b0f1d-4b89-4559-a6e7-fc7a471f11d5.png" alt="" class="search-icon"/>
+          </button>
+        </form>
+
+        <!-- 유저 메뉴 (로그인 상태에 따라 스위칭) -->
+        <nav class="user-menu" aria-label="User menu">
+          <!-- 비회원용 -->
+          <span id="auth-guest">
+            <a href="./Login.html">Login</a>
+            <a href="./Join.html">Join</a>
+          </span>
+
+          <!-- 회원용 (처음엔 숨김) -->
+          <span id="auth-member" class="auth-member">
+            <span id="welcome-name"></span>
+            <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+          </span>
+
+          <!-- 항상 노출되는 메뉴 -->
+          <a href="./MyPage.html">MyPage</a>
+          <a href="./basket.html">Shopping Basket</a>
+          <a href="./service.html">Customer Service</a>
+        </nav>
+      </div>
+
+      <!-- 네비게이션 메뉴 -->
+      <nav class="menu" aria-label="Primary">
+        <a href="#">All Category</a>
+        <a href="What.html">What is Moltiz, Maltiz?</a>
+        <a href="sale.html">Sale</a>
+        <a href="best.html">Best</a>
+        <a href="store.html">Store</a>
+        <a href="BookMark.html">BookMark</a>
+        <a href="event.html">Event</a>
+        <a href="Gallery.html">Gallery</a>
+        <a href="Minigame.html">Mini Game</a>
+        <a href="AI.html">Moltiz AI Service</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 메인 섹션 ===== -->
+  <main class="service-container">
+    <h2 class="service-title">Customer Service</h2>
+
+    <!-- 상단 이미지 -->
+    <div class="top-banner-wrapper">
+      <div class="top-banner-box">
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/1bfab09d-ee74-48c8-a6b9-d784a0910269.png" alt="Left" class="top-img" />
+        <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/0ac3907c-4195-449d-a4d0-a61b60a1fab4.png" alt="Right" class="top-img" />
+      </div>
+    </div>
+
+    <!-- 연락처 -->
+    <div class="contact-info">
+      <p><strong> Customer Service</strong> &nbsp;&nbsp;010-xxxx-xxxx</p>
+      <p><strong> Consultation Time</strong> &nbsp;&nbsp;AM 09:00 ~ PM 18:00</p>
+    </div>
+
+    <!-- FAQ 제목 -->
+    <h2 class="faq-title">FAQ</h2>
+
+    <!-- FAQ 본문 + 이미지 -->
+    <div class="faq-section">
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/0febd691-d869-40f4-9489-b912a0eb54a2.png" alt="Left FAQ Image" class="faq-img hover-img" />
+
+      <div class="faq-box">
+        <div class="faq-item">
+          <button class="faq-question"> How long does delivery take?</button>
+          <div class="faq-answer">Delivery usually takes 2–3 business days.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> Can I get a refund after payment?</button>
+          <div class="faq-answer">Refunds are not allowed after payment unless there's a defect.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> How do I change my order?</button>
+          <div class="faq-answer">You can modify your order within 12 hours of placement.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> Where is my tracking number?</button>
+          <div class="faq-answer">You’ll receive tracking info by email after shipping.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> How do I contact customer support?</button>
+          <div class="faq-answer">Use the contact number or email above to reach us.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> How do I reset my password?</button>
+          <div class="faq-answer">Go to login page → Click ‘Forgot password?’</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"> Are there any first-time user discounts?</button>
+          <div class="faq-answer">Yes! New users get 10% off their first purchase.</div>
+        </div>
+      </div>
+
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/845a9688-8bb6-4bc2-9b52-3aaaa15d0ebc.png" alt="Right FAQ Image" class="faq-img hover-img" />
+    </div>
+  </main>
+
+  <!-- ===== 푸터 ===== -->
+  <footer>
+    <p>
+      <img src="https://ninjastorage.blob.core.windows.net/companyfiles/205623498/7b830d61-7939-4aad-b9ce-5f8de623cfbb.png" 
+           alt="Moltiz! Maltiz! Logo" class="footer-logo">
+      <strong>Moltiz! Maltiz!</strong> The Maker: MinwooJi
+    </p>
+    <p><strong>Customer Service</strong>: 010-xxxx-xxxx</p>
+    <p><strong>Email</strong>: minwooji00@xxx.com</p>
+    <p><strong>Consultation time</strong>: AM 09:00 - PM 18:00</p>
+  </footer>
+
+  <!-- ===== FAQ Toggle Script ===== -->
+  <script>
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const answer = button.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+
+  <!-- 모든 페이지의 </body> 직전에 추가 -->
+<script src="search.js" defer></script>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
